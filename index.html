@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Flux: Seed</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css">
+    <!-- nice font -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <!-- who doesn't love jQuery... -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <!-- configuration variables -->
+    <script src="js/config.js"></script>
+    <!-- the Flux Viewport -->
+    <script src="https://npmcdn.com/flux-viewport@0.8.0/dist/flux-viewport-bundle.global.js"></script>
+    <!-- the Flux JS SDK and helpers-->
+    <script src="https://npmcdn.com/flux-sdk-browser@0.4/dist/flux-sdk-min.js"></script>
+    <script src="https://npmcdn.com/flux-sdk-helpers@0.1/dist/flux-sdk-helpers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.js"></script>
+    <!-- helper functions for using the Flux SDK -->
+    <script src="js/helpers.js"></script>
+    <!-- main application logic -->
+    <script src="js/index.js"></script>
+  </head>
+  
+  <body>
+    <!-- MAIN CONTAINER -->
+    <div id='container' class="ui container">
+
+      <!-- HEADER BAR -->
+      <div id="bar" class="ui menu">
+
+        <!-- TITLE & SUBTITLE -->
+        <div class="header item">FLUX QUARTZ APP</div>
+        <div class="subtitle item">Analyze whole building environmental and health impacts</div>
+
+        <!-- LOGIN & LOGOUT -->
+        <div id="login" class="item" style="display: none;">Login</div>
+        <div id="logout" class="item">Logout</div>
+
+      </div>
+
+      <!-- CONTENT-->
+      <div id='content'>
+        
+        <!-- LEFT PANEL -->
+        <div class='left-panel'>
+          
+          <!-- SELECT PROJECT -->
+          <div class='select'>
+            <div class="ui fluid search selection dropdown projects">
+              <input type="hidden">
+              <div class="default text">Select Project</div>
+              <div class="menu projects"></div>
+              <i class="dropdown icon"></i>
+            </div>
+          </div>
+
+          <!-- SELECT KEY -->
+          <div class='select'>
+            <div class="ui fluid search selection dropdown keys">
+              <input type="hidden">
+              <div class="default text">Select Geometry</div>
+              <div class="menu keys"></div>
+              <i class="dropdown icon"></i>
+            </div>
+          </div>
+
+          <!-- GEOMETRY VIEWPORT -->
+          <div id='geometry'>
+            <div id='view'></div>
+          </div>
+          <!-- GENERAL DISPLAY -->
+          <div id='display'>
+            <div class='content'></div>
+          </div>
+
+        </div>
+        
+        <!-- RIGHT PANEL -->
+        <div class='right-panel'>
+          <!-- TABLE TITLE -->
+          <div class="chart title">Set Materials > Geometric Surfaces</div>
+
+          <!-- EDITABLE TABLE -->
+          <div class='table'>
+            <table class="ui single line table">
+              
+              <!-- TABLE HEADERS -->
+              <thead>
+                <tr>
+                  <th>Layer Name</th>
+                  <th>Thickness</th>
+                  <th>% Area</th>
+                  <th>Quartz CPID</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td> <!-- select layer -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select Layer</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="ui transparent input">
+                      <input type="text" placeholder="Thickness">
+                    </div>
+                  </td>
+                  <td>jhlilk22@yahoo.com</td>
+                  <td> <!-- select cpid -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select CPID</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td> <!-- select layer -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select Layer</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                  <td>January 11, 2014</td>
+                  <td>jamieharingonton@yahoo.com</td>
+                  <td> <!-- select cpid -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select CPID</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td> <!-- select layer -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select Layer</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                  <td>May 11, 2014</td>
+                  <td>jilsewris22@yahoo.com</td>
+                  <td> <!-- select cpid -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select CPID</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot class="full-width">
+                <tr>
+                  <th colspan="4">
+                    <button class="ui icon button">
+                      <i class="plus icon"></i>
+                    </button>
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- TABLE TITLE -->
+          <div class="chart title">Set Materials > Geometric Volumes</div>
+
+          <!-- EDITABLE TABLE -->
+          <div class='table'>
+            <table class="ui single line table">
+              <thead>
+                <tr>
+                  <th>Layer Name</th>
+                  <th>Thickness</th>
+                  <th>% Area</th>
+                  <th>Quartz CPID</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td> <!-- select layer -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select Layer</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                  <td>September 14, 2013</td>
+                  <td>jhlilk22@yahoo.com</td>
+                  <td> <!-- select cpid -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select CPID</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td> <!-- select layer -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select Layer</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                  <td>January 11, 2014</td>
+                  <td>jamieharingonton@yahoo.com</td>
+                  <td> <!-- select cpid -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select CPID</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td> <!-- select layer -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select Layer</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                  <td>May 11, 2014</td>
+                  <td>jilsewris22@yahoo.com</td>
+                  <td> <!-- select cpid -->
+                    <div class='select'>
+                      <div class="ui fluid search selection dropdown keys">
+                        <input type="hidden">
+                        <div class="default text">Select CPID</div>
+                        <div class="menu keys"></div>
+                        <i class="dropdown icon"></i>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot class="full-width">
+                <tr>
+                  <th colspan="4">
+                    <button class="ui icon button">
+                      <i class="plus icon"></i>
+                    </button>
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- TABLE TITLE -->
+          <div class="chart title">Save Design Option</div>
+
+          <!-- SAVE RESULTS TO KEY -->
+          <div  id='save'>
+            <div class='select'>
+              <div class="ui fluid search selection dropdown keys">
+                <input type="hidden">
+                <div class="default text">Save to Data Key</div>
+                <div class="menu keys"></div>
+                <i class="dropdown icon"></i>
+              </div>
+            </div>
+            <button class="ui button">Save</button>
+          </div>
+
+        </div>
+      
+      </div>
+    
+    </div>
+
+  </body>
+</html>
