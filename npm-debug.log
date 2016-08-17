@@ -1,0 +1,183 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'live-server' ]
+2 info using npm@2.15.1
+3 info using node@v4.4.4
+4 verbose install initial load of /usr/local/lib/package.json
+5 verbose readDependencies loading dependencies from /usr/local/lib/package.json
+6 silly cache add args [ 'live-server', null ]
+7 verbose cache add spec live-server
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: 'live-server',
+8 silly cache add   scope: null,
+8 silly cache add   name: 'live-server',
+8 silly cache add   rawSpec: '',
+8 silly cache add   spec: 'latest',
+8 silly cache add   type: 'tag' }
+9 silly addNamed live-server@latest
+10 verbose addNamed "latest" is being treated as a dist-tag for live-server
+11 info addNameTag [ 'live-server', 'latest' ]
+12 silly mapToRegistry name live-server
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry https://registry.npmjs.org/
+15 silly mapToRegistry data Result {
+15 silly mapToRegistry   raw: 'live-server',
+15 silly mapToRegistry   scope: null,
+15 silly mapToRegistry   name: 'live-server',
+15 silly mapToRegistry   rawSpec: '',
+15 silly mapToRegistry   spec: 'latest',
+15 silly mapToRegistry   type: 'tag' }
+16 silly mapToRegistry uri https://registry.npmjs.org/live-server
+17 verbose addNameTag registry:https://registry.npmjs.org/live-server not in flight; fetching
+18 verbose request uri https://registry.npmjs.org/live-server
+19 verbose request no auth needed
+20 info attempt registry request try #1 at 2:54:25 PM
+21 verbose request id 603ea13d50881d8f
+22 verbose etag "91NHW0LKM4BD9QLQCY61BWTY8"
+23 http request GET https://registry.npmjs.org/live-server
+24 http 304 https://registry.npmjs.org/live-server
+25 verbose headers { date: 'Wed, 17 Aug 2016 21:54:25 GMT',
+25 verbose headers   via: '1.1 varnish',
+25 verbose headers   'cache-control': 'max-age=300',
+25 verbose headers   etag: '"91NHW0LKM4BD9QLQCY61BWTY8"',
+25 verbose headers   age: '0',
+25 verbose headers   connection: 'keep-alive',
+25 verbose headers   'x-served-by': 'cache-sea1924-SEA',
+25 verbose headers   'x-cache': 'HIT',
+25 verbose headers   'x-cache-hits': '1',
+25 verbose headers   'x-timer': 'S1471470865.324172,VS0,VE92',
+25 verbose headers   vary: 'Accept-Encoding' }
+26 silly get cb [ 304,
+26 silly get   { date: 'Wed, 17 Aug 2016 21:54:25 GMT',
+26 silly get     via: '1.1 varnish',
+26 silly get     'cache-control': 'max-age=300',
+26 silly get     etag: '"91NHW0LKM4BD9QLQCY61BWTY8"',
+26 silly get     age: '0',
+26 silly get     connection: 'keep-alive',
+26 silly get     'x-served-by': 'cache-sea1924-SEA',
+26 silly get     'x-cache': 'HIT',
+26 silly get     'x-cache-hits': '1',
+26 silly get     'x-timer': 'S1471470865.324172,VS0,VE92',
+26 silly get     vary: 'Accept-Encoding' } ]
+27 verbose etag https://registry.npmjs.org/live-server from cache
+28 verbose get saving live-server to /Users/karenhao/.npm/registry.npmjs.org/live-server/.cache.json
+29 verbose correctMkdir /Users/karenhao/.npm correctMkdir not in flight; initializing
+30 silly addNameTag next cb for live-server with tag latest
+31 silly addNamed live-server@1.1.0
+32 verbose addNamed "1.1.0" is a plain semver version for live-server
+33 silly cache afterAdd live-server@1.1.0
+34 verbose afterAdd /Users/karenhao/.npm/live-server/1.1.0/package/package.json not in flight; writing
+35 verbose correctMkdir /Users/karenhao/.npm correctMkdir not in flight; initializing
+36 verbose afterAdd /Users/karenhao/.npm/live-server/1.1.0/package/package.json written
+37 silly install resolved [ { name: 'live-server',
+37 silly install resolved     version: '1.1.0',
+37 silly install resolved     description: 'simple development http server with live reload capability',
+37 silly install resolved     keywords: [ 'front-end', 'development', 'tool', 'server', 'http', 'cli' ],
+37 silly install resolved     author: { name: 'Tapio Vierros' },
+37 silly install resolved     dependencies:
+37 silly install resolved      { colors: 'latest',
+37 silly install resolved        connect: '3.4.x',
+37 silly install resolved        cors: 'latest',
+37 silly install resolved        'event-stream': 'latest',
+37 silly install resolved        'faye-websocket': '0.11.x',
+37 silly install resolved        'http-auth': '2.4.x',
+37 silly install resolved        morgan: '^1.6.1',
+37 silly install resolved        'object-assign': 'latest',
+37 silly install resolved        opn: 'latest',
+37 silly install resolved        'proxy-middleware': 'latest',
+37 silly install resolved        send: 'latest',
+37 silly install resolved        'serve-index': '^1.7.2',
+37 silly install resolved        watchr: '2.6.x' },
+37 silly install resolved     devDependencies:
+37 silly install resolved      { mocha: '^2.3.3',
+37 silly install resolved        supertest: '^1.0.1',
+37 silly install resolved        eslint: '^2.8.0',
+37 silly install resolved        jshint: '^2.9.2' },
+37 silly install resolved     scripts:
+37 silly install resolved      { lint: 'eslint live-server.js index.js',
+37 silly install resolved        hint: 'jshint live-server.js index.js',
+37 silly install resolved        test: 'mocha test && npm run lint' },
+37 silly install resolved     bin: { 'live-server': './live-server.js' },
+37 silly install resolved     repository:
+37 silly install resolved      { type: 'git',
+37 silly install resolved        url: 'git+https://github.com/tapio/live-server.git' },
+37 silly install resolved     engines: { node: '>=0.10.0' },
+37 silly install resolved     preferGlobal: true,
+37 silly install resolved     license: 'MIT',
+37 silly install resolved     eslintConfig: { env: [Object], rules: [Object] },
+37 silly install resolved     gitHead: 'e1cfee72efd7d96f9e68e51d487f5adfad9ffbee',
+37 silly install resolved     bugs: { url: 'https://github.com/tapio/live-server/issues' },
+37 silly install resolved     homepage: 'https://github.com/tapio/live-server#readme',
+37 silly install resolved     _id: 'live-server@1.1.0',
+37 silly install resolved     _shasum: 'a69f0e6ca581e0391aa57941970e17c308dd4869',
+37 silly install resolved     _from: 'live-server@latest',
+37 silly install resolved     _npmVersion: '2.15.8',
+37 silly install resolved     _nodeVersion: '4.4.7',
+37 silly install resolved     _npmUser: { name: 'tapio', email: 'tapiovierros@gmail.com' },
+37 silly install resolved     maintainers: [ [Object] ],
+37 silly install resolved     dist:
+37 silly install resolved      { shasum: 'a69f0e6ca581e0391aa57941970e17c308dd4869',
+37 silly install resolved        tarball: 'https://registry.npmjs.org/live-server/-/live-server-1.1.0.tgz' },
+37 silly install resolved     _npmOperationalInternal:
+37 silly install resolved      { host: 'packages-16-east.internal.npmjs.com',
+37 silly install resolved        tmp: 'tmp/live-server-1.1.0.tgz_1471184212826_0.7530093262903392' },
+37 silly install resolved     directories: {},
+37 silly install resolved     _resolved: 'https://registry.npmjs.org/live-server/-/live-server-1.1.0.tgz',
+37 silly install resolved     readme: 'ERROR: No README data found!' } ]
+38 info install live-server@1.1.0 into /usr/local/lib
+39 info installOne live-server@1.1.0
+40 verbose installOne of live-server to /usr/local/lib not in flight; installing
+41 verbose correctMkdir /Users/karenhao/.npm/_locks correctMkdir not in flight; initializing
+42 verbose lock using /Users/karenhao/.npm/_locks/live-server-1932c27c2adeb129.lock for /usr/local/lib/node_modules/live-server
+43 silly install write writing live-server 1.1.0 to /usr/local/lib/node_modules/live-server
+44 verbose unbuild lib/node_modules/live-server
+45 info preuninstall live-server@1.1.0
+46 info uninstall live-server@1.1.0
+47 verbose unbuild rmStuff live-server@1.1.0 from /usr/local/lib/node_modules
+48 silly gentlyRm /usr/local/bin/live-server is being gently removed
+49 silly gentlyRm verifying /usr/local is an npm working directory
+50 silly gentlyRm containing path /usr/local is under npm's control, in /usr/local
+51 silly gentlyRm deletion target /usr/local/bin/live-server is under /usr/local
+52 verbose gentlyRm vacuuming from /usr/local/bin/live-server up to /usr/local
+53 silly vacuum-fs removing /usr/local/bin/live-server
+54 verbose unlock done using /Users/karenhao/.npm/_locks/live-server-1932c27c2adeb129.lock for /usr/local/lib/node_modules/live-server
+55 verbose stack Error: EACCES: permission denied, unlink '/usr/local/bin/live-server'
+55 verbose stack     at Error (native)
+56 verbose cwd /Users/karenhao/Documents/Flux/Flux Labs/quapp
+57 error Darwin 14.5.0
+58 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "-g" "live-server"
+59 error node v4.4.4
+60 error npm  v2.15.1
+61 error path /usr/local/bin/live-server
+62 error code EACCES
+63 error errno -13
+64 error syscall unlink
+65 error Error: EACCES: permission denied, unlink '/usr/local/bin/live-server'
+65 error     at Error (native)
+65 error  { [Error: EACCES: permission denied, unlink '/usr/local/bin/live-server']
+65 error   errno: -13,
+65 error   code: 'EACCES',
+65 error   syscall: 'unlink',
+65 error   path: '/usr/local/bin/live-server' }
+66 error Please try running this command again as root/Administrator.
+67 verbose exit [ -13, true ]
+68 verbose unbuild lib/node_modules/live-server
+69 info preuninstall live-server@1.1.0
+70 info uninstall live-server@1.1.0
+71 verbose unbuild rmStuff live-server@1.1.0 from /usr/local/lib/node_modules
+72 silly gentlyRm /usr/local/bin/live-server is being gently removed
+73 silly gentlyRm verifying /usr/local is an npm working directory
+74 silly gentlyRm containing path /usr/local is under npm's control, in /usr/local
+75 silly gentlyRm deletion target /usr/local/bin/live-server is under /usr/local
+76 verbose gentlyRm vacuuming from /usr/local/bin/live-server up to /usr/local
+77 silly vacuum-fs removing /usr/local/bin/live-server
+78 error error rolling back Error: EACCES: permission denied, unlink '/usr/local/bin/live-server'
+78 error error rolling back     at Error (native)
+78 error error rolling back  { [Error: EACCES: permission denied, unlink '/usr/local/bin/live-server']
+78 error error rolling back   errno: -13,
+78 error error rolling back   code: 'EACCES',
+78 error error rolling back   syscall: 'unlink',
+78 error error rolling back   path: '/usr/local/bin/live-server' }

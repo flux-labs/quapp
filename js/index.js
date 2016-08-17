@@ -271,6 +271,26 @@ function init() {
         $('.ui.dropdown.keys').dropdown({
           onChange: onChangeKeys
         });
+
+
+        $('#bar .item').click(function(e) {
+          var $e = $(e.target)
+          var hasClass = $e.hasClass('active')
+          
+          // remove all active classes from items
+          $('#bar .item').removeClass('active')
+
+          // remove all active classes from tabs
+          $('#content .tab').removeClass('active')
+          
+          if (!hasClass) {
+            $e.addClass('active')
+            var type = $e.data('id')
+            $('#content .tab.'+type).addClass('active')
+          }
+
+        })
+
         // create the viewport
         initViewport()
         // prepare the cell (key) select boxes

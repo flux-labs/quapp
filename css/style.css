@@ -63,23 +63,36 @@ div {
   color: #aaa;
 }
 
-/*login & logout*/
+/*navbar*/
 
-#login, #logout {
+#login, #logout, .item.compare, .item.design {
   cursor: pointer;
   line-height: 60px;
   padding: 0 20px;
   height: 100%;
-  color: #aaa;
+  color: #64B5F6;
   float: right;
   transition: background 0.2s ease-in-out;
 
 }
 
-#login:hover, #logout:hover {
-  color: #aaa;
+#login:hover, #logout:hover, .item.compare:hover, .item.design:hover {
+  color: #64B5F6;
   background: #e8e8e8;
 }
+
+#bar .item.active {
+  background: #e8e8e8;
+}
+#content .tab {
+  display: none;
+  height: 100%;
+  width: 100%;
+}
+#content .tab.active {
+  display: block;
+}
+
 
 
 /*CONTENT*/
