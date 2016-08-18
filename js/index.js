@@ -1,4 +1,4 @@
-var viewport, projects, selectedProject, projectCells, selectedOutputCell, layerNames, needsVolume;
+var viewport, projects, selectedProject, projectCells, selectedOutputCell, layerNames, layerNamesArea = [], layerNamesVolume = [], needsVolume, userInputsArea=[[],[],[]], userInputsVolume=[[],[],[]];
 
 /**
  * Hide the login page and attach events to the logout button.
@@ -176,7 +176,6 @@ function getLayerNames(value) {
   // check to see which other key has client name = grasshopper
   var layerKey = projectCells.filter(function(k) { return k.clientName === "grasshopper" && k.id !== value })[0]
   var needsVolumeKey = projectCells.filter(function(k) { return k.label === "FLW_needs volume" })[0]
-  var layerNamesArea = [], layerNamesVolume = [];
   // get value of key
   if (selectedProject && layerKey) {
     // get the value of the layerKey (returns a promise)
@@ -226,9 +225,23 @@ function onChangeLayer(value, name) {
   if (selectedProject && name) {
     // find the parent row
     var parentRow = $(this).closest("tr");
+    var td = $(this).closest("td")
+    var colIndex = td.parent().children().index(td)
+    var rowIndex = td.closest("tbody").children().index(td.parent())
+
     // find and populate childCell
     getAreaVolume(name).then(function(areaOrVolume) {
       parentRow.find("td.val").text(Math.round(areaOrVolume*100)/100);
+
+      // figure out which table its in
+      // and if its in area table, add to area variable
+      if (td.closest('table').attr('id')=='areaTable') {
+        userInputsArea[rowIndex][colIndex]=name;
+        userInputsArea[rowIndex][colIndex+1]=areaOrVolume;
+      } else {   // else store in volume variable
+        userInputsVolume[rowIndex][colIndex]=name;
+        userInputsVolume[rowIndex][colIndex+1]=areaOrVolume;
+      }
     });
   }
 }
@@ -271,10 +284,42 @@ function getCPIDs() {
   $('.menu.ids').empty().append(options)
 }
 
+function onChangeCPIDs(value, name) {
+  var td = $(this).closest("td")
+  var colIndex = td.parent().children().index(td)
+  var rowIndex = td.closest("tbody").children().index(td.parent())
+  // figure out which table its in
+  // and if its in area table, add to area variable
+  if ($(this).closest('table').attr('id')=='areaTable') {
+    userInputsArea[rowIndex][colIndex]=name;
+  } else {   // else store in volume variable
+    userInputsVolume[rowIndex][colIndex]=name;
+  }
+}
+
+/**
+ * Add CPIDs to dropdown menu
+ */
+function onInput(e) {
+  var userInput = e.target.value;
+
+  var td = $(this).closest("td")
+  var colIndex = td.parent().children().index(td)
+  var rowIndex = td.closest("tbody").children().index(td.parent())
+  // figure out which table its in
+  // and if its in area table, add to area variable
+  if ($(this).closest('table').attr('id')=='areaTable') {
+    userInputsArea[rowIndex][colIndex]=userInput;
+  } else {   // else store in volume variable
+    userInputsVolume[rowIndex][colIndex]=userInput;
+  }
+}
+
 /**
  * Add row when + button is pushed
  */
 function addRowArea() {
+  userInputsArea.push([]);
   $('#areaTable > tbody:last').append('\
     <tr>\
       <td> <!-- select layer -->\
@@ -300,19 +345,40 @@ function addRowArea() {
       </td>\
       <td> <!-- select cpid -->\
         <div class="select">\
-          <div class="ui fluid search selection dropdown keys">\
+          <div class="ui fluid search selection dropdown ids">\
             <input type="hidden">\
             <div class="default text">Select CPID</div>\
-            <div class="menu keys"></div>\
+            <div class="menu ids"></div>\
             <i class="dropdown icon"></i>\
           </div>\
         </div>\
       </td>\
-    </tr>\
-    <tr>');
+    </tr>');
+
+    // add layernames to dropdown
+    var optionsArea = layerNamesArea.map(function(name) {
+      return $('<div class="item">' + name + '</div>')
+    })
+    // make sure the select box is empty and then insert the new options
+    $('#areaTable tr:nth-last-child(1) td:first-child .menu.layers.area').empty().append(optionsArea)
+
+    // add CPIDs to dropdown
+    var options = CPIDs.map(function(id) {
+      return $('<div class="item">' + id + '</div>')
+    })
+    $('#areaTable tr:nth-last-child(1) td:last-child .menu.ids').empty().append(options)
+    
+    // refresh dropdown menus
+    $('.ui.dropdown.layers').dropdown({onChange: onChangeLayer});
+    $('.ui.dropdown.ids').dropdown({onChange: onChangeCPIDs});
+
+    // refresh inputs
+    $('#areaTable tr:nth-last-child(1) td .ui.input').on('input', onInput)
+
 }
 
 function addRowVolume() {
+  userInputsVolume.push([]);
   $('#volumeTable > tbody:last').append('\
     <tr>\
       <td> <!-- select layer -->\
@@ -333,27 +399,48 @@ function addRowVolume() {
       </td>\
       <td> <!-- select cpid -->\
         <div class="select">\
-          <div class="ui fluid search selection dropdown keys">\
+          <div class="ui fluid search selection dropdown ids">\
             <input type="hidden">\
             <div class="default text">Select CPID</div>\
-            <div class="menu keys"></div>\
+            <div class="menu ids"></div>\
             <i class="dropdown icon"></i>\
           </div>\
         </div>\
       </td>\
-    </tr>\
-    <tr>');
+    </tr>');
+
+    // add layernames to dropdown
+    var optionsVolume = layerNamesVolume.map(function(name) {
+      return $('<div class="item">' + name + '</div>')
+    })
+    // make sure the select box is empty and then insert the new options
+    $('#volumeTable tr:nth-last-child(1) td:first-child .menu.layers.volume').empty().append(optionsVolume)
+
+    // add CPIDs to dropdown
+    var options = CPIDs.map(function(id) {
+      return $('<div class="item">' + id + '</div>')
+    })
+    $('#volumeTable tr:nth-last-child(1) td:last-child .menu.ids').empty().append(options)
+    
+    // refresh dropdown menus
+    $('.ui.dropdown.layers').dropdown({onChange: onChangeLayer});
+    $('.ui.dropdown.ids').dropdown({onChange: onChangeCPIDs});
+
+    // refresh inputs
+    $('#volumeTable tr:nth-last-child(1) td .ui.input').on('input', onInput)
 }
 
 /**
  * Delete row when - button is pushed
  */
 function deleteRowArea() {
-  $('#areaTable tr:nth-last-child(2)').remove();
+  userInputsArea.pop();
+  $('#areaTable tbody tr:nth-last-child(1)').remove();
 }
 
 function deleteRowVolume() {
-  $('#volumeTable tr:nth-last-child(2)').remove();
+  userInputsVolume.pop();
+  $('#volumeTable tbody tr:nth-last-child(1)').remove();
 }
 
 /**
@@ -592,13 +679,16 @@ function init() {
         $('.ui.dropdown.layers').dropdown({
           onChange: onChangeLayer
         });
-        $('.ui.dropdown.ids').dropdown();
+        $('.ui.dropdown.ids').dropdown({
+          onChange: onChangeCPIDs
+        });
+        $('.ui.input').on('input', onInput)
 
-        $('button.button.area .plus').click(addRowArea);
-        $('button.button.volume .plus').click(addRowVolume);
+        $('button.button.area.plus').click(addRowArea);
+        $('button.button.volume.plus').click(addRowVolume);
 
-        $('button.button.area .minus').click(deleteRowArea);
-        $('button.button.volume .minus').click(deleteRowVolume);
+        $('button.button.area.minus').click(deleteRowArea);
+        $('button.button.volume.minus').click(deleteRowVolume);
 
         $('#bar .item.button').click(function(e) {
           var $e = $(e.target)
