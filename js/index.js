@@ -707,6 +707,8 @@ function init() {
           }
 
         })
+        // hide display by default
+        $('#display').hide()
         // create the viewport
         initViewport()
         // get the user's projects from Flux
