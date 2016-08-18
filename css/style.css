@@ -93,8 +93,6 @@ div {
   display: block;
 }
 
-
-
 /*CONTENT*/
 
 /*structure*/
@@ -199,7 +197,7 @@ button {
   font-weight: 700;
   text-transform: uppercase;
   color: #64B5F6;
-  padding: 20px 20px 10px;
+  padding: 20px 20px 12px;
 }
 
 .table {
@@ -220,9 +218,10 @@ button {
 
 .table input {
   height: 42px;
+  margin: 0 -2.5px;
 }
 
-.table .default.text {
+.table .default.text, .table .text {
   padding-top: 3px;
   margin-left: -4px;
 }
@@ -233,6 +232,11 @@ button {
 
 .table button {
   padding: 8px !important;
+}
+
+.ui.transparent.input input {
+  margin: -11px 0;
+  max-width: 100px !important;
 }
 
 #save {

@@ -1,3 +1,6 @@
+/**
+ * Quartz database as table
+ */
 var quartzDB = [
   [
     "CPID",
@@ -4430,7 +4433,9 @@ var quartzDB = [
   ]
 ];
 
-
+/**
+ * Quartz density values as table
+ */
 var quartzDensities = [
   [
     "CPID",
@@ -5463,3 +5468,14 @@ var quartzDensities = [
     null
   ]
 ];
+
+/**
+ * Populate CPIDs
+ */
+var CPIDs = (function() {
+    var result = []
+    for (i=1; i<quartzDB.length; i++) {
+        result.push(quartzDB[i][0])
+    }
+    return result
+})();

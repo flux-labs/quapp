@@ -1,4 +1,4 @@
-var viewport, projects, selectedProject, projectCells, selectedOutputCell
+var viewport, projects, selectedProject, projectCells, selectedOutputCell, layerNames, needsVolume;
 
 /**
  * Hide the login page and attach events to the logout button.
@@ -114,7 +114,6 @@ function fetchCells() {
  * Call render when key changes.
  */
 function onChangeKeys(value, text) {
-  console.log('wtf', value)
   // find the cell that was clicked on
   selectedOutputCell = projectCells.filter(function(k) { return k.id === value })[0]
   
@@ -122,14 +121,14 @@ function onChangeKeys(value, text) {
     // get the value of the cell (returns a promise)
     getValue(selectedProject, selectedOutputCell).then(function(data) {
       // and render it
-      console.log('onchangekey', selectedProject, selectedOutputCell, data)
       render(data)
     })
+    // get the value of a different data key
+    getLayerNames(value)
   }
 }
 
 function render(data) {
-  console.log('render', data)
   //check to see if data is available to render
   if (!data) {
     //empty the display and hide the geometry viewport
@@ -171,70 +170,190 @@ function render(data) {
 }
 
 /**
- * Attach events to the cell (key) selection boxes.
+ * Grab layer names, split by area vs. volume, and use them to populate the "Select Layer" selection boxes.
  */
-function initCells() {
-  // attach a function to the change event of the viewport's cell (key) select box
-  $('#output select.cell').on('change', function(e) {
-    // find the cell that was clicked on
-    selectedOutputCell = projectCells.filter(function(k) { return k.id === e.target.value })[0]
-    
-    if (selectedProject && selectedOutputCell) {
-      // get the value of the cell (returns a promise)
-      getValue(selectedProject, selectedOutputCell).then(function(data) {
-        // and render it
-        console.log('getting', selectedProject, selectedOutputCell, data)
-        render(data)
-      })
-    }
-  })
+function getLayerNames(value) {
+  // check to see which other key has client name = grasshopper
+  var layerKey = projectCells.filter(function(k) { return k.clientName === "grasshopper" && k.id !== value })[0]
+  var needsVolumeKey = projectCells.filter(function(k) { return k.label === "FLW_needs volume" })[0]
+  var layerNamesArea = [], layerNamesVolume = [];
+  // get value of key
+  if (selectedProject && layerKey) {
+    // get the value of the layerKey (returns a promise)
+    getValue(selectedProject, layerKey).then(
+      function(response) {
+        // attach value of key to variable
+        layerNames = response.value
 
-  // attach a function to the change event of the slider's (input) select box
-  $('#input select.cell').on('change', function(e) {
-    // find the cell that was clicked on
-    var selectedCell = projectCells.filter(function(k) { return k.id === e.target.value })[0]
-    // and attach it to the slider so we can grab it later
-    $('#input input').data('cell', selectedCell)
-  })
+        // get the value of the needsVolume
+        getValue(selectedProject, needsVolumeKey).then(function(response) {
+          needsVolume = response.value
 
-  // attach a function to the change event of the slider
-  $('#input input').on('change', function(e) {
-    // find the cell that was clicked on (we attached it in the previous function)
-    var cell = $(e.target).data('cell')
-    // update the display with the new value
-    $('#input .label .value').html(e.target.value)
-    // and if we have a cell
-    if (cell) {
-      // tell flux to update the cell with this new value
-      updateCellValue(selectedProject, cell, parseFloat(e.target.value))
-    }
-  })
 
-  // initialize the slider's displayed value
-  $('#input .label .value').html($('#input input').val())
+          //if needsVolume, layerName gets added to layerNamesArea
+          for (i=0; i<layerNames.length; i++) {
+            if (needsVolume[i]) {
+              layerNamesArea.push(layerNames[i])
+            }
+            else { //else layerName gets added to layerNamesVolume
+              layerNamesVolume.push(layerNames[i])
+            }
+          }
+
+          // attach each value as div within selection drop down
+          var optionsArea = layerNamesArea.map(function(name) {
+            return $('<div class="item">' + name + '</div>')
+          })
+          // make sure the select box is empty and then insert the new options
+          $('.menu.layers.area').empty().append(optionsArea)
+
+          var optionsVolume = layerNamesVolume.map(function(name) {
+            return $('<div class="item">' + name + '</div>')
+          })
+          // make sure the select box is empty and then insert the new options
+          $('.menu.layers.volume').empty().append(optionsVolume)
+
+        })
+
+    })
+  }
 }
 
 /**
- * Initialize the create cell (key) input + button.
+ * Call getAreaVolume when layer changes.
  */
-function initCreate() {
-  $('#create .button').on('click', function(e) {
-    // get the input field
-    var input = $(e.target).parent().find('input')
-    // get the input field value
-    var value = input.val()
-    // check we have a name
-    if (value === '') return
-    // check we have a project selected
-    if (!selectedProject) return
-    // create the cell (key)
-    createCell(selectedProject, value).then(function() {
-      // clear the input
-      input.val('')
-      // refresh the cell (key) select boxes
-      fetchCells()
-    })
+function onChangeLayer(value, name) {
+  if (selectedProject && name) {
+    // find the parent row
+    var parentRow = $(this).closest("tr");
+    // find and populate childCell
+    getAreaVolume(name).then(function(areaOrVolume) {
+      parentRow.find("td.val").text(Math.round(areaOrVolume*100)/100);
+    });
+  }
+}
+
+/**
+ * Populate the "Area"/"Volume" box.
+ */
+function getAreaVolume(layerName) {
+  //find the index of layerName in layerNames and get the layer of geometry at the same index
+  var i = layerNames.indexOf(layerName);
+  var areaKey = projectCells.filter(function(k) { return k.label === "FLW_layer surface areas"})[0]
+  var volumeKey = projectCells.filter(function(k) { return k.label === "FLW_layer volumes"})[0]  
+  // if geometry needs volume, 
+  if (selectedProject && layerName) {
+    // get the value of the areaKey (returns a promise)
+    if (needsVolume[i]) {
+      return getValue(selectedProject, areaKey).then(function(response) {
+        // attach value of key to variable
+        var areas = response.value
+        return areas[i];
+      });
+    } else {
+      return getValue(selectedProject, volumeKey).then(function(response) {
+        var volumes = response.value
+        return volumes[i];
+      });
+    }
+    
+  }
+}
+
+/**
+ * Add CPIDs to dropdown menu
+ */
+function getCPIDs() {
+  var options = CPIDs.map(function(id) {
+    return $('<div class="item">' + id + '</div>')
   })
+  // make sure the select box is empty and then insert the new options
+  $('.menu.ids').empty().append(options)
+}
+
+/**
+ * Add row when + button is pushed
+ */
+function addRowArea() {
+  $('#areaTable > tbody:last').append('\
+    <tr>\
+      <td> <!-- select layer -->\
+        <div class="select">\
+          <div class="ui fluid search selection dropdown layers">\
+            <input type="hidden">\
+            <div class="default text">Select Layer</div>\
+            <div class="menu layers area"></div>\
+            <i class="dropdown icon"></i>\
+          </div>\
+        </div>\
+      </td>\
+      <td class="val"></td>\
+      <td> <!-- enter thickness -->\
+        <div class="ui transparent input">\
+          <input type="text" placeholder="Enter Thickness">\
+        </div>\
+      </td>\
+      <td> <!-- enter %area -->\
+        <div class="ui transparent input">\
+          <input type="text" placeholder="Enter % Area">\
+        </div>\
+      </td>\
+      <td> <!-- select cpid -->\
+        <div class="select">\
+          <div class="ui fluid search selection dropdown keys">\
+            <input type="hidden">\
+            <div class="default text">Select CPID</div>\
+            <div class="menu keys"></div>\
+            <i class="dropdown icon"></i>\
+          </div>\
+        </div>\
+      </td>\
+    </tr>\
+    <tr>');
+}
+
+function addRowVolume() {
+  $('#volumeTable > tbody:last').append('\
+    <tr>\
+      <td> <!-- select layer -->\
+        <div class="select">\
+          <div class="ui fluid search selection dropdown layers">\
+            <input type="hidden">\
+            <div class="default text">Select Layer</div>\
+            <div class="menu layers volume"></div>\
+            <i class="dropdown icon"></i>\
+          </div>\
+        </div>\
+      </td>\
+      <td class="val"></td>\
+      <td> <!-- enter %volume -->\
+        <div class="ui transparent input">\
+          <input type="text" placeholder="Enter % Volume">\
+        </div>\
+      </td>\
+      <td> <!-- select cpid -->\
+        <div class="select">\
+          <div class="ui fluid search selection dropdown keys">\
+            <input type="hidden">\
+            <div class="default text">Select CPID</div>\
+            <div class="menu keys"></div>\
+            <i class="dropdown icon"></i>\
+          </div>\
+        </div>\
+      </td>\
+    </tr>\
+    <tr>');
+}
+
+/**
+ * Delete row when - button is pushed
+ */
+function deleteRowArea() {
+  $('#areaTable tr:nth-last-child(2)').remove();
+}
+
+function deleteRowVolume() {
+  $('#volumeTable tr:nth-last-child(2)').remove();
 }
 
 /**
@@ -271,7 +390,16 @@ function init() {
         $('.ui.dropdown.keys').dropdown({
           onChange: onChangeKeys
         });
+        $('.ui.dropdown.layers').dropdown({
+          onChange: onChangeLayer
+        });
+        $('.ui.dropdown.ids').dropdown();
 
+        $('button.button.area .plus').click(addRowArea);
+        $('button.button.volume .plus').click(addRowVolume);
+
+        $('button.button.area .minus').click(deleteRowArea);
+        $('button.button.volume .minus').click(deleteRowVolume);
 
         $('#bar .item').click(function(e) {
           var $e = $(e.target)
@@ -290,15 +418,12 @@ function init() {
           }
 
         })
-
         // create the viewport
         initViewport()
-        // prepare the cell (key) select boxes
-        initCells()
-        // prepare the create key input + button
-        initCreate()
         // get the user's projects from Flux
         fetchProjects()
+        // populate CPIDs dropdown
+        getCPIDs()
 
       } else {
         showLogin();

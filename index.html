@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Flux: Seed</title>
+    <title>Flux Quartz App</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css">
+    <link rel="shortcut icon" href="images/quartz-icon.png">
     <!-- nice font -->
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <!-- who doesn't love jQuery... -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <!-- configuration variables -->
     <script src="js/config.js"></script>
+    <!-- quartz db and densities -->
+    <script src="js/quartz.js"></script>
     <!-- the Flux Viewport -->
     <script src="https://npmcdn.com/flux-viewport@0.8.0/dist/flux-viewport-bundle.global.js"></script>
     <!-- the Flux JS SDK and helpers-->
@@ -92,13 +95,14 @@
 
             <!-- EDITABLE TABLE -->
             <div class='table'>
-              <table class="ui single line table">
+              <table class="ui single line table" id="areaTable">
                 
                 <!-- TABLE HEADERS -->
                 <thead>
                   <tr>
                     <th>Layer Name</th>
-                    <th>Thickness</th>
+                    <th>Area (m<sup>2</sup>)</th>
+                    <th>Thickness (m)</th>
                     <th>% Area</th>
                     <th>Quartz CPID</th>
                   </tr>
@@ -108,26 +112,31 @@
                   <tr>
                     <td> <!-- select layer -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown layers">
                           <input type="hidden">
                           <div class="default text">Select Layer</div>
-                          <div class="menu keys"></div>
+                          <div class="menu layers area"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="val"></td>
+                    <td> <!-- enter thickness -->
                       <div class="ui transparent input">
-                        <input type="text" placeholder="Thickness">
+                        <input type="text" placeholder="Enter Thickness">
                       </div>
                     </td>
-                    <td>jhlilk22@yahoo.com</td>
+                    <td> <!-- enter %area -->
+                      <div class="ui transparent input">
+                        <input type="text" placeholder="Enter % Area">
+                      </div>
+                    </td>
                     <td> <!-- select cpid -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown ids">
                           <input type="hidden">
                           <div class="default text">Select CPID</div>
-                          <div class="menu keys"></div>
+                          <div class="menu ids"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
@@ -136,22 +145,31 @@
                   <tr>
                     <td> <!-- select layer -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown layers">
                           <input type="hidden">
                           <div class="default text">Select Layer</div>
-                          <div class="menu keys"></div>
+                          <div class="menu layers area"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
                     </td>
-                    <td>January 11, 2014</td>
-                    <td>jamieharingonton@yahoo.com</td>
+                    <td class="val"></td>
+                    <td> <!-- enter thickness -->
+                      <div class="ui transparent input">
+                        <input type="text" placeholder="Enter Thickness">
+                      </div>
+                    </td>
+                    <td> <!-- enter %area -->
+                      <div class="ui transparent input">
+                        <input type="text" placeholder="Enter % Area">
+                      </div>
+                    </td>
                     <td> <!-- select cpid -->
                       <div class='select'>
                         <div class="ui fluid search selection dropdown keys">
                           <input type="hidden">
                           <div class="default text">Select CPID</div>
-                          <div class="menu keys"></div>
+                          <div class="menu ids"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
@@ -160,22 +178,31 @@
                   <tr>
                     <td> <!-- select layer -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown layers">
                           <input type="hidden">
                           <div class="default text">Select Layer</div>
-                          <div class="menu keys"></div>
+                          <div class="menu layers area"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
                     </td>
-                    <td>May 11, 2014</td>
-                    <td>jilsewris22@yahoo.com</td>
+                    <td class="val"></td>
+                    <td> <!-- enter thickness -->
+                      <div class="ui transparent input">
+                        <input type="text" placeholder="Enter Thickness">
+                      </div>
+                    </td>
+                    <td> <!-- enter %area -->
+                      <div class="ui transparent input">
+                        <input type="text" placeholder="Enter % Area">
+                      </div>
+                    </td>                    
                     <td> <!-- select cpid -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown ids">
                           <input type="hidden">
                           <div class="default text">Select CPID</div>
-                          <div class="menu keys"></div>
+                          <div class="menu ids"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
@@ -184,9 +211,12 @@
                 </tbody>
                 <tfoot class="full-width">
                   <tr>
-                    <th colspan="4">
-                      <button class="ui icon button">
+                    <th colspan="5">
+                      <button class="ui icon button area">
                         <i class="plus icon"></i>
+                      </button>
+                      <button class="ui icon button area">
+                        <i class="minus icon"></i>
                       </button>
                     </th>
                   </tr>
@@ -199,12 +229,12 @@
 
             <!-- EDITABLE TABLE -->
             <div class='table'>
-              <table class="ui single line table">
+              <table class="ui single line table" id="volumeTable">
                 <thead>
                   <tr>
                     <th>Layer Name</th>
-                    <th>Thickness</th>
-                    <th>% Area</th>
+                    <th>Volume (m<sup>3</sup>)</th>
+                    <th>% Volume</th>
                     <th>Quartz CPID</th>
                   </tr>
                 </thead>
@@ -212,22 +242,26 @@
                   <tr>
                     <td> <!-- select layer -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown layers">
                           <input type="hidden">
                           <div class="default text">Select Layer</div>
-                          <div class="menu keys"></div>
+                          <div class="menu layers volume"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
                     </td>
-                    <td>September 14, 2013</td>
-                    <td>jhlilk22@yahoo.com</td>
+                    <td class="val"></td>
+                    <td> <!-- enter %vol -->
+                      <div class="ui transparent input">
+                        <input type="text" placeholder="Enter % Volume">
+                      </div>
+                    </td>
                     <td> <!-- select cpid -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown ids">
                           <input type="hidden">
                           <div class="default text">Select CPID</div>
-                          <div class="menu keys"></div>
+                          <div class="menu ids"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
@@ -236,22 +270,26 @@
                   <tr>
                     <td> <!-- select layer -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown layers">
                           <input type="hidden">
                           <div class="default text">Select Layer</div>
-                          <div class="menu keys"></div>
+                          <div class="menu layers volume"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
                     </td>
-                    <td>January 11, 2014</td>
-                    <td>jamieharingonton@yahoo.com</td>
+                    <td class="val"></td>
+                    <td> <!-- enter %vol -->
+                      <div class="ui transparent input">
+                        <input type="text" placeholder="Enter % Volume">
+                      </div>
+                    </td>
                     <td> <!-- select cpid -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown ids">
                           <input type="hidden">
                           <div class="default text">Select CPID</div>
-                          <div class="menu keys"></div>
+                          <div class="menu ids"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
@@ -260,22 +298,26 @@
                   <tr>
                     <td> <!-- select layer -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown layers">
                           <input type="hidden">
                           <div class="default text">Select Layer</div>
-                          <div class="menu keys"></div>
+                          <div class="menu layers volume"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
                     </td>
-                    <td>May 11, 2014</td>
-                    <td>jilsewris22@yahoo.com</td>
+                    <td class="val"></td>
+                    <td> <!-- enter %vol -->
+                      <div class="ui transparent input">
+                        <input type="text" placeholder="Enter % Volume">
+                      </div>
+                    </td>
                     <td> <!-- select cpid -->
                       <div class='select'>
-                        <div class="ui fluid search selection dropdown keys">
+                        <div class="ui fluid search selection dropdown ids">
                           <input type="hidden">
                           <div class="default text">Select CPID</div>
-                          <div class="menu keys"></div>
+                          <div class="menu ids"></div>
                           <i class="dropdown icon"></i>
                         </div>
                       </div>
@@ -285,8 +327,11 @@
                 <tfoot class="full-width">
                   <tr>
                     <th colspan="4">
-                      <button class="ui icon button">
+                      <button class="ui icon button volume">
                         <i class="plus icon"></i>
+                      </button>
+                      <button class="ui icon button volume">
+                        <i class="minus icon"></i>
                       </button>
                     </th>
                   </tr>

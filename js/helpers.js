@@ -46,7 +46,6 @@ function getCells(project) {
  */
 function getCell(project, cell) {
   return getDataTable(project).table.getCell(cell.id)
-  console.log(getDataTable(project).table.getCell(cell.id))
 }
 
 /**
