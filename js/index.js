@@ -519,6 +519,8 @@ var test2 =[
     "CP036"
   ]
 ]  
+
+
 function calculateVolumes(materialAssignmentsWithAreas, materialAssignmentsWithVolumes) {
   // where materialAssignments is a 2D array w/ header
   materialAssignmentsWithAreas[0].push("calculatedVolume");
@@ -542,8 +544,10 @@ function calculateVolumes(materialAssignmentsWithAreas, materialAssignmentsWithV
   var result = [materialAssignmentsWithAreas, materialAssignmentsWithVolumes];
   
   return result;  
-}
-function calculateMasses(densities, m1, m2)  {
+};
+
+
+function calculateMasses(densities, m1, m2)  { // m1 and m2 are the materialAssignments for calculateVolumes
   
   var list1 = calculateVolumes(m1, m2)[0]     // list of material assignments (areas) with calculated volumes appended 
   var list2 = calculateVolumes(m1, m2)[1]     // list of material assignments (volumes) with calculated volumes appended
@@ -570,9 +574,11 @@ function calculateMasses(densities, m1, m2)  {
       [list2[k][0], CPID, calculatedVolume, mass ] 
     )
   }
-  return result;
-}
-function calculateImpacts(quartzDB) { // ,masses
+  return result;  //  [ [Layer Name, CPID, Volume, Mass ],...]
+};
+
+
+function calculateImpacts(quartzDB, materialsWithMasses) {   // materialsWithMasses is the output of calculateMasses()
  
   var QuartzDBDict = {};
   var LbsInKg =  2.20462;
@@ -583,79 +589,128 @@ function calculateImpacts(quartzDB) { // ,masses
   }
   
   // for every CP in QuartzDB
-  for (var i=1; i < quartzDB.length; i++){
+  for (var i = 1; i < quartzDB.length; i++){
     
     // iterating through LCA data for every CP, converting string values to numbers
     for (var j=0; j < ListLCAImpacts.length; j++) {
       var indexOfImpact = ( quartzDB[0] ).indexOf( ListLCAImpacts[j] ) 
       var value = quartzDB[i][ indexOfImpact ];
-      if ( value !== undefined) {
-        
+      if ( value !== undefined) {  
         // convert all metrics from kg to lbs except for PED, which is measured in MJ
         if (ListLCAImpacts[j] === "Primary Energy Demand (MJ c2g)" || ListLCAImpacts[j] === "Primary Energy Demand IU (MJ c2g)" ||  ListLCAImpacts[j] === "Primary Energy Demand EoL (MJ c2g)" ) {
-          value = Number(value);
+          quartzDB[i][ indexOfImpact ] = Number(value);
         }
         else if ( value !== undefined) {
-          value = Number(value) * LbsInKg;
+          quartzDB[i][ indexOfImpact ] = Number(value) * LbsInKg;
         }
+
       }  
-      return quartzDB
-      // if ( quartzDB[i][ ListLCAImpacts[j] ] !== undefined) {
-        
-      //   // convert all metrics from kg to lbs except for PED, which is measured in MJ
-      //   if (ListLCAImpacts[j] === quartzDB[0].indexOf("primary_energy_demand_MJ_c2g") || ListLCAImpacts[j] === quartzDB[0].indexOf("primary_energy_demand_MJ_iu") ||  ListLCAImpacts[j] === quartzDB[0].indexOf("primary_energy_demand_MJ_eol") ) {
-      //     quartzDB[i][ ListLCAImpacts[j] ] = Number(quartzDB[i][ ListLCAImpacts[j] ]);
-      //   }
-      //   else if (quartzDB[i][ ListLCAImpacts[j] ] !== undefined) {
-      //     quartzDB[i][ ListLCAImpacts[j] ] = Number(quartzDB[i][ ListLCAImpacts[j] ])*LbsInKg;
-      //   }
-      // }
-      //return quartzDB;
     }
+  }; 
+  
+  var result = materialsWithMasses;
+
+  for (var d = 0; d < ListLCAImpacts_Imperial.length; d++) {
+    result[0].push( ListLCAImpacts_Imperial[d] );   // adding LCA Impacts (Imperial) to the results header
+  }
+  
+  for (var e = 0; e < ListHealthHazards.length; e++) {
+    result[0].push( ListHealthHazards[e] );   // adding Health Hazards to the results header
+  }
+
+  // iterating through every material assignment
+  for (var k = 1; k < result.length; k++) {
+      
+      var CP = QuartzDBDict[ result[k][1] ] ; // grab the assigned CP from QuartzDB
+
+      for (var z = 0; z < ListLCAImpacts_Imperial.length; z++) {
+
+        var impact = result[0].indexOf( ListLCAImpacts_Imperial[z] )  // grabs the impact index of choice
+
+        // putting n/a in for blank properties
+        result[k][ impact ] = "n/a";
+
+        if (result[k][1] !== undefined) { 
+        //multiply material mass by LCA data of corresponding CP, divide by lbs in a kg (LCA data is given as kg of impact per kg of product)
+          result[k][ impact ] = CP[ quartzDB[0].indexOf( ListLCAImpacts[z] ) ] * result[k][3] / LbsInKg;
+        } 
+      }
+  
+      //multiply material by health data for corresponding CP
+  
+      for (var p = 0; p < ListHealthHazards.length; p++) {
+
+        var hazard = result[0].indexOf( ListHealthHazards[p] )  // grabs the hazard figure of choice
+        result[k][ hazard ] = "n/a";
+
+        // creating new columns in the Masses data to append scaled values
+        if (result[k][1] !== undefined) { 
+          result[k][ hazard ] = CP[ hazard ] * result[k][3];     
+        }
+      }
   } 
-  
-  // // iterating through every Revit element
-  // for (var k = 0; k < DataWithMasses.length; k++) {
-  //     var CP = QuartzDBDict[DataWithMasses[k].CPID];
-  
-  //     for (var z = 0; z < ListLCAImpacts.length; z++) {
-  //     // putting n/a in for blank properties
-  //       DataWithMasses[k][ListLCAImpacts_Imperial[z]] = "n/a";
-  //       if (DataWithMasses[k].CPID !== undefined) { 
-  //       //multiply Revit element mass by LCA data of corresponding CP, divide by lbs in a kg (LCA data is given as kg of impact per kg of product)
-  //         DataWithMasses[k][ ListLCAImpacts_Imperial[z] ] = CP[ ListLCAImpacts[z] ] * DataWithMasses[k].Mass / LbsInKg;
-  //       } 
-  //     }
-  
-  //     //multiply Revit element by health data for corresponding CP
-  
-  //     for (var p = 0; p < ListHealthHazards.length; p++) {
-        
-  //       DataWithMasses[k][ ListHealthHazards[p] ] = "n/a";
-  //       // creating new columns in the Masses data to append scaled values
-  //       if (DataWithMasses[k].CPID !== undefined) { 
-  //         DataWithMasses[k][ ListHealthHazards[p] ] = CP[ ListHealthHazards[p]] * DataWithMasses[k].Mass;   
-          
-  //       }
-  //     }
-  // } 
-  // // Replacing all NaN values as string values  
-  // for (var a = 0; a < DataWithMasses.length; a++) {
-  //   for (var key in DataWithMasses[a]) {
-  //     if ( isNaN(DataWithMasses[a][key]) === true ) {
-  //       DataWithMasses[a][key] = DataWithMasses[a][key].toString();
-  //       if (DataWithMasses[a][key] === "NaN") {
-  //         DataWithMasses[a][key] = "n/a";
-  //       }
-  //     }
-  //   }
-  // }
-  
-  
-  // return {
-  //   DataWithMassesAndImpacts: DataWithMasses
-  // };
+
+  // Replacing all NaN values as string values  
+  for (var a = 1; a < result.length; a++) {
+    for (var b = 0; b < result[a].length; b++ ) {
+      if ( isNaN( result[a][b] ) === true ) {
+        result[a][b].toString();
+        // if (result[a][b] === "NaN") {
+        //   result[a][b] = "n/a";
+        // }
+      }
+    }
+  };
+
+  return result;
+
 }; 
+
+function createChart() {
+  var chart = new CanvasJS.Chart("columnChart",
+    {
+      title:{
+      text: "Number of Students in Each Room"   
+      },
+      animationEnabled: true,
+      axisX:{
+        title: "Rooms"
+      },
+      axisY:{
+        title: "percentage"
+      },
+      data: [
+      {        
+        type: "stackedColumn100",
+        name: "Boys",
+        showInLegend: "true",
+        dataPoints: [
+        {  y: 40, label: "Cafeteria"},
+        {  y: 10, label: "Lounge" },
+        {  y: 72, label: "Games Room" },
+        {  y: 30, label: "Lecture Hall" },
+        {  y: 21, label: "Library"}                
+        ]
+      }, {        
+        type: "stackedColumn100",        
+        name: "Girls",
+        showInLegend: "true",
+        dataPoints: [
+        {  y: 20, label: "Cafeteria"},
+        {  y: 14, label: "Lounge" },
+        {  y: 40, label: "Games Room" },
+        {  y: 43, label: "Lecture Hall" },
+        {  y: 17, label: "Library"}                
+        ]
+      }
+      ]
+    });
+
+    chart.render();
+  };
+
+
+
 
 /**
  * Start the application.
@@ -715,6 +770,8 @@ function init() {
         fetchProjects()
         // populate CPIDs dropdown
         getCPIDs()
+        // create column chart
+        createChart()
 
       } else {
         showLogin();

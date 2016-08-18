@@ -1,6 +1,18 @@
+
+/**
+ * Variables in this file:
+ *      quartzDB
+ *      quartzDensities
+ *      ListLCAImpacts
+ *      ListLCAImpacts_Imperial
+ *      ListHealthHazards
+ */
+
+
 /**
  * Quartz database as table
  */
+
 var quartzDB = [
   [
     "CPID",

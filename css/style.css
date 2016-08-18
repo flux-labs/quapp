@@ -190,6 +190,12 @@ button {
   top: 0;
 }
 
+#columnChart {
+  position: relative;
+  height: 50%;
+  width: 100%;
+}
+
 /*right panel*/
 
 .chart.title {
