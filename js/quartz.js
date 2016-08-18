@@ -5479,3 +5479,75 @@ var CPIDs = (function() {
     }
     return result
 })();
+
+/**
+ * LCA
+ */
+var ListLCAImpacts = [
+        "Acidification Potential (kg SO2-eq c2g)",
+        "Eutrophication Potential (kg N-eq c2g)",
+        "Global Warming Potential (kg CO2-eq c2g)",
+        "Ozone Depletion Potential (kg CFC11-eq c2g)",
+        "Smog Potential (kg O3-eq c2g)",
+        "Primary Energy Demand (MJ c2g)",
+        "Acidification Potential IU (kg SO2-eq c2g)",
+        "Eutrophication Potential IU (kg N-eq c2g)",
+        "Global Warming Potential IU (kg CO2-eq c2g)",
+        "Ozone Depletion Potential IU (kg CFC11-eq c2g)",
+        "Smog Potential IU (kg O3-eq c2g)",
+        "Primary Energy Demand IU (MJ c2g)",
+        "Acidification Potential EoL (kg SO2-eq c2g)",
+        "Eutrophication Potential EoL (kg N-eq c2g)",
+        "Global Warming Potential EoL (kg CO2-eq c2g)",
+        "Ozone Depletion Potential EoL (kg CFC11-eq c2g)",
+        "Smog Potential EoL (kg O3-eq c2g)",
+        "Primary Energy Demand EoL (MJ c2g)",
+    ];
+  var ListLCAImpacts_Imperial = [
+        "Acidification Potential (lbs SO2-eq c2g)",
+        "Eutrophication Potential (lbs N-eq c2g)",
+        "Global Warming Potential (lbs CO2-eq c2g)",
+        "Ozone Depletion Potential (lbs CFC11-eq c2g)",
+        "Smog Potential (lbs O3-eq c2g)",
+        "Primary Energy Demand (MJ c2g)",
+        "Acidification Potential IU (lbs SO2-eq c2g)",
+        "Eutrophication Potential IU (lbs N-eq c2g)",
+        "Global Warming Potential IU (lbs CO2-eq c2g)",
+        "Ozone Depletion Potential IU (lbs CFC11-eq c2g)",
+        "Smog Potential IU (lbs O3-eq c2g)",
+        "Primary Energy Demand IU (MJ c2g)",
+        "Acidification Potential EoL (lbs SO2-eq c2g)",
+        "Eutrophication Potential EoL (lbs N-eq c2g)",
+        "Global Warming Potential EoL (lbs CO2-eq c2g)",
+        "Ozone Depletion Potential EoL (lbs CFC11-eq c2g)",
+        "Smog Potential EoL (lbs O3-eq c2g)",
+        "Primary Energy Demand EoL (MJ c2g)",
+    ];
+
+/**
+ * Health
+ */
+  var ListHealthHazards = [
+        "Cancer - orange",
+        "Developmental - orange",
+        "Endocrine - orange",
+        "Eye Irritation - orange",
+        "Mammalian - orange",
+        "Mutagenicity - orange",
+        "Neurotoxicity - orange",
+        "Organ Toxicant - orange",
+        "Reproductive - orange",
+        "Respiratory - orange",
+        "Respiratory Occupational Only - orange",
+        "Skin Irritation - orange",
+        "Skin Sensitization - orange",
+        "Cancer - red",
+        "Cancer Occupational Only - red",
+        "Developmental - red",
+        "Mutagenicity - red",
+        "PBT - red",
+        "Reproductive - red",
+        "Respiratory - red",
+        "PBT - purple",
+        "Unknown"
+    ];

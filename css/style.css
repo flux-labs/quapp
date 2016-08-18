@@ -70,18 +70,18 @@ div {
   line-height: 60px;
   padding: 0 20px;
   height: 100%;
-  color: #64B5F6;
+  /*color: #64B5F6;*/
   float: right;
   transition: background 0.2s ease-in-out;
 
 }
 
-#login:hover, #logout:hover, .item.compare:hover, .item.design:hover {
-  color: #64B5F6;
-  background: #e8e8e8;
+#login:hover, #logout:hover, .item.compare.button:hover, .item.design.button:hover {
+  color: #fff;
+  background: #64B5F6;
 }
 
-#bar .item.active {
+#bar .item .button.active {
   background: #e8e8e8;
 }
 #content .tab {

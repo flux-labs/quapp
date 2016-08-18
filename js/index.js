@@ -371,6 +371,205 @@ function initViewport() {
   viewport._renderer._helpersScene.remove(viewport._renderer._helpers)
 }
 
+
+/**
+ * Calculate Impacts.
+ */
+var test1 = [
+  [
+    "Name",
+    "Area",
+    "Thickness",
+    "Area%",
+    "CPID"
+  ],
+  [
+    "Floor",
+    127491.2714163956,
+    0.3937007874015748,
+    0.03280839895013123,
+    "CP133"
+  ],
+  [
+    "Floor",
+    254982.5428327912,
+    4,
+    0.3333333333333333,
+    "CP036"
+  ],
+  [
+    "Glass",
+    390.0506264307599,
+    0.12,
+    0.01,
+    "CP044"
+  ],
+  [
+    "Glass",
+    39005.06264307599,
+    0.5,
+    0.041666666666666664,
+    "CP178"
+  ]
+]
+var test2 =[
+  [
+    "Name",
+    "Volume",
+    "Volume%",
+    "CPID"
+  ],
+  [
+    "Floor",
+    127491.2714163956,
+    0.3937007874015748,
+    "CP133"
+  ],
+  [
+    "Floor",
+    254982.5428327912,
+    0.3333333333333333,
+    "CP036"
+  ]
+]  
+function calculateVolumes(materialAssignmentsWithAreas, materialAssignmentsWithVolumes) {
+  // where materialAssignments is a 2D array w/ header
+  materialAssignmentsWithAreas[0].push("calculatedVolume");
+  materialAssignmentsWithVolumes[0].push("calculatedVolume");
+  // calculate volumes for table materials assignments w/o volumes
+  for(var m = 1; m < materialAssignmentsWithAreas.length; m++){
+      
+      // Add (Area * %Area * Thickness) to end of list
+      materialAssignmentsWithAreas[m].push(
+        materialAssignmentsWithAreas[m][1] * materialAssignmentsWithAreas[m][2] * materialAssignmentsWithAreas[m][3]
+      );
+  }
+  // calculate volumes for table materials assignments w/ volumes
+  for(var n = 1; n < materialAssignmentsWithVolumes.length; n++){
+    
+    // Add (Volume * %Volume) to end of list
+    materialAssignmentsWithVolumes[n].push(
+      materialAssignmentsWithVolumes[n][1] * materialAssignmentsWithVolumes[n][2]
+    );
+  }
+  var result = [materialAssignmentsWithAreas, materialAssignmentsWithVolumes];
+  
+  return result;  
+}
+function calculateMasses(densities, m1, m2)  {
+  
+  var list1 = calculateVolumes(m1, m2)[0]     // list of material assignments (areas) with calculated volumes appended 
+  var list2 = calculateVolumes(m1, m2)[1]     // list of material assignments (volumes) with calculated volumes appended
+  var densitiesDict = {};
+  for (var i = 1; i < densities.length; i++){
+    densitiesDict[densities[i][0]]= densities[i];
+  }
+  
+  // Compile master list of materials with Layer Name, CPID, Volume, Mass
+  var result = [ ["Layer Name", "CPID", "Volume", "Mass"] ];
+  for (var j = 1; j < list1.length; j++){
+    var CPID = list1[j][4];
+    var calculatedVolume =  list1[j][5];
+    var mass = calculatedVolume * densitiesDict[CPID][3];
+    result.push(
+      [ list1[j][0], CPID, calculatedVolume, mass ] 
+    )
+  }
+  for (var k = 1; k < list2.length; k++){
+    var CPID = list2[k][3];
+    var calculatedVolume =  list2[k][4];
+    var mass = calculatedVolume * densitiesDict[CPID][3];
+    result.push(
+      [list2[k][0], CPID, calculatedVolume, mass ] 
+    )
+  }
+  return result;
+}
+function calculateImpacts(quartzDB) { // ,masses
+ 
+  var QuartzDBDict = {};
+  var LbsInKg =  2.20462;
+  
+  // turn QuartzDB into dictionaries to allow for better referencing
+  for (var y = 1; y < quartzDB.length; y++){
+    QuartzDBDict[ quartzDB[y][0] ] = quartzDB[y];
+  }
+  
+  // for every CP in QuartzDB
+  for (var i=1; i < quartzDB.length; i++){
+    
+    // iterating through LCA data for every CP, converting string values to numbers
+    for (var j=0; j < ListLCAImpacts.length; j++) {
+      var indexOfImpact = ( quartzDB[0] ).indexOf( ListLCAImpacts[j] ) 
+      var value = quartzDB[i][ indexOfImpact ];
+      if ( value !== undefined) {
+        
+        // convert all metrics from kg to lbs except for PED, which is measured in MJ
+        if (ListLCAImpacts[j] === "Primary Energy Demand (MJ c2g)" || ListLCAImpacts[j] === "Primary Energy Demand IU (MJ c2g)" ||  ListLCAImpacts[j] === "Primary Energy Demand EoL (MJ c2g)" ) {
+          value = Number(value);
+        }
+        else if ( value !== undefined) {
+          value = Number(value) * LbsInKg;
+        }
+      }  
+      return quartzDB
+      // if ( quartzDB[i][ ListLCAImpacts[j] ] !== undefined) {
+        
+      //   // convert all metrics from kg to lbs except for PED, which is measured in MJ
+      //   if (ListLCAImpacts[j] === quartzDB[0].indexOf("primary_energy_demand_MJ_c2g") || ListLCAImpacts[j] === quartzDB[0].indexOf("primary_energy_demand_MJ_iu") ||  ListLCAImpacts[j] === quartzDB[0].indexOf("primary_energy_demand_MJ_eol") ) {
+      //     quartzDB[i][ ListLCAImpacts[j] ] = Number(quartzDB[i][ ListLCAImpacts[j] ]);
+      //   }
+      //   else if (quartzDB[i][ ListLCAImpacts[j] ] !== undefined) {
+      //     quartzDB[i][ ListLCAImpacts[j] ] = Number(quartzDB[i][ ListLCAImpacts[j] ])*LbsInKg;
+      //   }
+      // }
+      //return quartzDB;
+    }
+  } 
+  
+  // // iterating through every Revit element
+  // for (var k = 0; k < DataWithMasses.length; k++) {
+  //     var CP = QuartzDBDict[DataWithMasses[k].CPID];
+  
+  //     for (var z = 0; z < ListLCAImpacts.length; z++) {
+  //     // putting n/a in for blank properties
+  //       DataWithMasses[k][ListLCAImpacts_Imperial[z]] = "n/a";
+  //       if (DataWithMasses[k].CPID !== undefined) { 
+  //       //multiply Revit element mass by LCA data of corresponding CP, divide by lbs in a kg (LCA data is given as kg of impact per kg of product)
+  //         DataWithMasses[k][ ListLCAImpacts_Imperial[z] ] = CP[ ListLCAImpacts[z] ] * DataWithMasses[k].Mass / LbsInKg;
+  //       } 
+  //     }
+  
+  //     //multiply Revit element by health data for corresponding CP
+  
+  //     for (var p = 0; p < ListHealthHazards.length; p++) {
+        
+  //       DataWithMasses[k][ ListHealthHazards[p] ] = "n/a";
+  //       // creating new columns in the Masses data to append scaled values
+  //       if (DataWithMasses[k].CPID !== undefined) { 
+  //         DataWithMasses[k][ ListHealthHazards[p] ] = CP[ ListHealthHazards[p]] * DataWithMasses[k].Mass;   
+          
+  //       }
+  //     }
+  // } 
+  // // Replacing all NaN values as string values  
+  // for (var a = 0; a < DataWithMasses.length; a++) {
+  //   for (var key in DataWithMasses[a]) {
+  //     if ( isNaN(DataWithMasses[a][key]) === true ) {
+  //       DataWithMasses[a][key] = DataWithMasses[a][key].toString();
+  //       if (DataWithMasses[a][key] === "NaN") {
+  //         DataWithMasses[a][key] = "n/a";
+  //       }
+  //     }
+  //   }
+  // }
+  
+  
+  // return {
+  //   DataWithMassesAndImpacts: DataWithMasses
+  // };
+}; 
+
 /**
  * Start the application.
  */
@@ -401,12 +600,12 @@ function init() {
         $('button.button.area .minus').click(deleteRowArea);
         $('button.button.volume .minus').click(deleteRowVolume);
 
-        $('#bar .item').click(function(e) {
+        $('#bar .item.button').click(function(e) {
           var $e = $(e.target)
           var hasClass = $e.hasClass('active')
           
           // remove all active classes from items
-          $('#bar .item').removeClass('active')
+          $('#bar .item.button').removeClass('active')
 
           // remove all active classes from tabs
           $('#content .tab').removeClass('active')
