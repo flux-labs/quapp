@@ -4446,6 +4446,526 @@ var quartzDB = [
 ];
 
 /**
+ * Quartz database as table
+ */
+var quartzDescr = [
+  [
+    "CPID",
+    "Name",
+    "Description"
+  ],
+  [
+    "CP000",
+    "Rebar (40,60,75,80 Grade Steel)",
+    null
+  ],
+  [
+    "CP001",
+    "Ready Mixed Concrete (Straight Mix) (NWC 3000-4000psi)",
+    null
+  ],
+  [
+    "CP005",
+    "Drywall (Natural Gypsum)",
+    null
+  ],
+  [
+    "CP006",
+    "Drywall Joint Compound",
+    null
+  ],
+  [
+    "CP008",
+    "Hydrophilic Concrete Joint Waterstop",
+    null
+  ],
+  [
+    "CP009",
+    "Concrete Sealant",
+    null
+  ],
+  [
+    "CP016",
+    "Vapor barrier",
+    null
+  ],
+  [
+    "CP017",
+    "Structural Steel (I-beams)",
+    "ASTM Standard A992 grade used for structural (I) beams was first standardized in 1998 and has largely replaced A36 and other grades \"because of its high yield strength and tensile strength, especially under seismic stress.\" (AISC)"
+  ],
+  [
+    "CP018",
+    "Steel Bolt Assembly (General Use)",
+    null
+  ],
+  [
+    "CP019",
+    "Steel Bolt Assembly (Structural)",
+    null
+  ],
+  [
+    "CP024",
+    "Thin Film Intumescent Coating",
+    null
+  ],
+  [
+    "CP025",
+    "Oriented strand board",
+    null
+  ],
+  [
+    "CP026",
+    "Composite Metal Decking",
+    null
+  ],
+  [
+    "CP027",
+    "Sub-Floor Smoothing Compound",
+    null
+  ],
+  [
+    "CP029",
+    "Cementitious Grouting",
+    null
+  ],
+  [
+    "CP030",
+    "Liquid-applied moisture barrier",
+    null
+  ],
+  [
+    "CP031",
+    "Concrete cork expansion joint",
+    null
+  ],
+  [
+    "CP032",
+    "Flame retardant polyurethane foam window/door seal",
+    null
+  ],
+  [
+    "CP033",
+    "Firestop joint spray",
+    null
+  ],
+  [
+    "CP036",
+    "XPS Insulation (extruded polystyrene)",
+    null
+  ],
+  [
+    "CP037",
+    "Fiberglass Batt Insulation",
+    null
+  ],
+  [
+    "CP038",
+    "Chromate Pretreatment for Steel",
+    null
+  ],
+  [
+    "CP039",
+    "Polyester Powder Coating",
+    null
+  ],
+  [
+    "CP042",
+    "Concrete Masonry Unit",
+    null
+  ],
+  [
+    "CP043",
+    "Aluminum Primer",
+    null
+  ],
+  [
+    "CP044",
+    "Anodized Aluminum Curtainwall Extrusion",
+    null
+  ],
+  [
+    "CP048",
+    "Elastic Facade Joint Sealant",
+    null
+  ],
+  [
+    "CP051",
+    "IGU Silicone Sealant",
+    null
+  ],
+  [
+    "CP053",
+    "Curtain wall seals - Rubber (ethylene propylene diene monomer) gasket",
+    null
+  ],
+  [
+    "CP056",
+    "Double Pane IGU",
+    null
+  ],
+  [
+    "CP065",
+    "Fluid-applied rubber asphalt roofing",
+    null
+  ],
+  [
+    "CP069",
+    "Roof edge flashing",
+    null
+  ],
+  [
+    "CP071",
+    "EPDM membrane roofing",
+    null
+  ],
+  [
+    "CP072",
+    "Exterior Door w/ IGU",
+    null
+  ],
+  [
+    "CP074",
+    "Metal Ceiling Tile",
+    null
+  ],
+  [
+    "CP077",
+    "Steel Studs",
+    null
+  ],
+  [
+    "CP079",
+    "Drywall Screws",
+    null
+  ],
+  [
+    "CP081",
+    "Acrylic paint",
+    null
+  ],
+  [
+    "CP084",
+    "Drywall Joint Tape",
+    null
+  ],
+  [
+    "CP086",
+    "Drywall Acoustical Sealant",
+    null
+  ],
+  [
+    "CP089",
+    "Pipe Thread Sealant",
+    null
+  ],
+  [
+    "CP090",
+    "Steel Pipe Hanger",
+    null
+  ],
+  [
+    "CP091",
+    "Solvent Weld Soil and Waste Pipe",
+    null
+  ],
+  [
+    "CP092",
+    "Copper Piping",
+    null
+  ],
+  [
+    "CP094",
+    "Intumescent firestop sealant",
+    null
+  ],
+  [
+    "CP095",
+    "Galvanized Steel Ducts",
+    null
+  ],
+  [
+    "CP096",
+    "Carbon Steel Sprinkler Pipe",
+    null
+  ],
+  [
+    "CP100",
+    "Steel Conduit",
+    null
+  ],
+  [
+    "CP103",
+    "HDPE Municipal Water Pipe",
+    null
+  ],
+  [
+    "CP108",
+    "Type X Drywall",
+    null
+  ],
+  [
+    "CP109",
+    "Drywall (Mixed Gypsum)",
+    null
+  ],
+  [
+    "CP110",
+    "Drywall (FGD)",
+    null
+  ],
+  [
+    "CP111",
+    "Welded Wire Mesh Concrete Reinforcement",
+    null
+  ],
+  [
+    "CP112",
+    "Foundation waterproofing sheet membrane",
+    null
+  ],
+  [
+    "CP113",
+    "Foundation waterproofing sheet primer",
+    null
+  ],
+  [
+    "CP114",
+    "Foundation dampproofing",
+    null
+  ],
+  [
+    "CP115",
+    "Granular Fill",
+    null
+  ],
+  [
+    "CP116",
+    "Plywood",
+    null
+  ],
+  [
+    "CP117",
+    "Particleboard",
+    null
+  ],
+  [
+    "CP118",
+    "Wood Framing",
+    null
+  ],
+  [
+    "CP119",
+    "Fire-retardant Treated/PT Lumber",
+    null
+  ],
+  [
+    "CP120",
+    "EPS Insulation",
+    null
+  ],
+  [
+    "CP121",
+    "Spray Foam Insulation",
+    null
+  ],
+  [
+    "CP123",
+    "Mineral Fiber Batt Insulation",
+    null
+  ],
+  [
+    "CP124",
+    "Thermoplastic polyolefin (TPO) membrane roofing",
+    null
+  ],
+  [
+    "CP125",
+    "Polyvinyl chloride membrane roofing",
+    null
+  ],
+  [
+    "CP126",
+    "Membrane roofing adhesives",
+    null
+  ],
+  [
+    "CP127",
+    "Steel Door",
+    null
+  ],
+  [
+    "CP128",
+    "Medium Density Fiberboard (MDF)",
+    null
+  ],
+  [
+    "CP129",
+    "Acoustical Ceiling Panels (FGD Gypsum)",
+    null
+  ],
+  [
+    "CP130",
+    "Acoustical Ceiling Panels (Natural Gypsum)",
+    null
+  ],
+  [
+    "CP131",
+    "Acoustical Ceiling Panels (mineral fiber)",
+    null
+  ],
+  [
+    "CP132",
+    "PVDF-Coated Aluminum Curtainwall Extrusion",
+    null
+  ],
+  [
+    "CP133",
+    "High performance coating (epoxy)",
+    null
+  ],
+  [
+    "CP134",
+    "High Performance Coatings (Acrylic)",
+    null
+  ],
+  [
+    "CP146",
+    "Acrylic Flooring Adhesive",
+    null
+  ],
+  [
+    "CP147",
+    "Epoxy flooring adhesive",
+    null
+  ],
+  [
+    "CP148",
+    "Polyurethane flooring adhesive",
+    null
+  ],
+  [
+    "CP149",
+    "Linoleum Flooring",
+    null
+  ],
+  [
+    "CP150",
+    "Vinyl Composition Tile",
+    null
+  ],
+  [
+    "CP151",
+    "Fluid-Applied Flooring",
+    null
+  ],
+  [
+    "CP152",
+    "Carpet",
+    null
+  ],
+  [
+    "CP155",
+    "Hardwood (prefinished)",
+    null
+  ],
+  [
+    "CP156",
+    "Bamboo (engineered)",
+    null
+  ],
+  [
+    "CP157",
+    "Cross Laminated Timber (CLT) (Engineered wood)",
+    null
+  ],
+  [
+    "CP158",
+    "PP Water Pipe",
+    null
+  ],
+  [
+    "CP159",
+    "PEX Water Pipe",
+    null
+  ],
+  [
+    "CP160",
+    "Pipe Insulation",
+    null
+  ],
+  [
+    "CP161",
+    "Pipe Insulation Adhesives",
+    null
+  ],
+  [
+    "CP168",
+    "Ready Mixed Concrete (LWC 3000-4000psi)",
+    null
+  ],
+  [
+    "CP169",
+    "Ready Mix Concrete (BF Slag) (3,000 - 4,000 psi)",
+    null
+  ],
+  [
+    "CP170",
+    "Ready Mix Concrete (Fly Ash) (3,000 - 4,000 psi)",
+    null
+  ],
+  [
+    "CP171",
+    "Glulam",
+    null
+  ],
+  [
+    "CP172",
+    "Glass Fiber Reinforced Polymer Decking",
+    null
+  ],
+  [
+    "CP173",
+    "Polycarbonate Cladding",
+    null
+  ],
+  [
+    "CP174",
+    "Structural Steel Cables",
+    null
+  ],
+  [
+    "CP175",
+    "Cast Iron Pipes",
+    null
+  ],
+  [
+    "CP176",
+    "Glass Fiber Reinforced Polymer Water Storage Tank",
+    null
+  ],
+  [
+    "CP177",
+    "Gypsum Spray Fireproofing",
+    null
+  ],
+  [
+    "CP178",
+    "Laminated Glass",
+    null
+  ],
+  [
+    "CP179",
+    "Fiberglass Board Insulation",
+    null
+  ],
+  [
+    "CP180",
+    "PMMA Countertop",
+    null
+  ]
+];
+/**
  * Quartz density values as table
  */
 var quartzDensities = [
