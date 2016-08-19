@@ -254,6 +254,17 @@ button {
   padding: 8px !important;
 }
 
+button.ui.view {
+  margin-left:20px;
+  float: left;
+  border-radius: 0 !important;
+}
+
+#view-chart {
+  width:20%;
+  float: left;
+}
+
 .ui.transparent.input input {
   margin: -11px 0;
   max-width: 100px !important;

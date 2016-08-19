@@ -5516,26 +5516,26 @@ var ListLCAImpacts = [
         "Primary Energy Demand EoL (MJ c2g)",
     ];
 
-  var ListLCAImpacts_Imperial = [
-        "Acidification Potential (lbs SO2-eq c2g)",
-        "Eutrophication Potential (lbs N-eq c2g)",
-        "Global Warming Potential (lbs CO2-eq c2g)",
-        "Ozone Depletion Potential (lbs CFC11-eq c2g)",
-        "Smog Potential (lbs O3-eq c2g)",
-        "Primary Energy Demand (MJ c2g)",
-        "Acidification Potential IU (lbs SO2-eq c2g)",
-        "Eutrophication Potential IU (lbs N-eq c2g)",
-        "Global Warming Potential IU (lbs CO2-eq c2g)",
-        "Ozone Depletion Potential IU (lbs CFC11-eq c2g)",
-        "Smog Potential IU (lbs O3-eq c2g)",
-        "Primary Energy Demand IU (MJ c2g)",
-        "Acidification Potential EoL (lbs SO2-eq c2g)",
-        "Eutrophication Potential EoL (lbs N-eq c2g)",
-        "Global Warming Potential EoL (lbs CO2-eq c2g)",
-        "Ozone Depletion Potential EoL (lbs CFC11-eq c2g)",
-        "Smog Potential EoL (lbs O3-eq c2g)",
-        "Primary Energy Demand EoL (MJ c2g)",
-    ];
+var ListLCAImpacts_Imperial = [
+    "Acidification Potential (lbs SO2-eq c2g)",
+    "Eutrophication Potential (lbs N-eq c2g)",
+    "Global Warming Potential (lbs CO2-eq c2g)",
+    "Ozone Depletion Potential (lbs CFC11-eq c2g)",
+    "Smog Potential (lbs O3-eq c2g)",
+    "Primary Energy Demand (MJ c2g)",
+    "Acidification Potential IU (lbs SO2-eq c2g)",
+    "Eutrophication Potential IU (lbs N-eq c2g)",
+    "Global Warming Potential IU (lbs CO2-eq c2g)",
+    "Ozone Depletion Potential IU (lbs CFC11-eq c2g)",
+    "Smog Potential IU (lbs O3-eq c2g)",
+    "Primary Energy Demand IU (MJ c2g)",
+    "Acidification Potential EoL (lbs SO2-eq c2g)",
+    "Eutrophication Potential EoL (lbs N-eq c2g)",
+    "Global Warming Potential EoL (lbs CO2-eq c2g)",
+    "Ozone Depletion Potential EoL (lbs CFC11-eq c2g)",
+    "Smog Potential EoL (lbs O3-eq c2g)",
+    "Primary Energy Demand EoL (MJ c2g)",
+];
 
 /**
  * Health
@@ -5629,33 +5629,45 @@ var test2 =[
 
 function calculateVolumes(materialAssignmentsWithAreas, materialAssignmentsWithVolumes) {
   // where materialAssignments is a 2D array w/ header
-  materialAssignmentsWithAreas[0].push("calculatedVolume");
-  materialAssignmentsWithVolumes[0].push("calculatedVolume");
+  var list1 = materialAssignmentsWithAreas;
+  var list2 = materialAssignmentsWithVolumes;
+
+  console.log(materialAssignmentsWithAreas,materialAssignmentsWithVolumes)
+   
+  list1[0].push("calculatedVolume");
+
+  console.log(materialAssignmentsWithAreas,materialAssignmentsWithVolumes)
+
+  list2[0].push("calculatedVolume");
+  console.log(materialAssignmentsWithAreas,materialAssignmentsWithVolumes)
+
   // calculate volumes for table materials assignments w/o volumes
   for(var m = 1; m < materialAssignmentsWithAreas.length; m++){
       
       // Add (Area * %Area * Thickness) to end of list
-      materialAssignmentsWithAreas[m].push(
-        materialAssignmentsWithAreas[m][1] * materialAssignmentsWithAreas[m][2] * materialAssignmentsWithAreas[m][3]
+      list1[m].push(
+        list1[m][1] * list1[m][2] * list1[m][3]
       );
   }
   // calculate volumes for table materials assignments w/ volumes
-  for(var n = 1; n < materialAssignmentsWithVolumes.length; n++){
+  for(var n = 1; n < list2.length; n++){
     
     // Add (Volume * %Volume) to end of list
-    materialAssignmentsWithVolumes[n].push(
-      materialAssignmentsWithVolumes[n][1] * materialAssignmentsWithVolumes[n][2]
+    list2[n].push(
+      list2[n][1] * list2[n][2]
     );
   }
-  var result = [materialAssignmentsWithAreas, materialAssignmentsWithVolumes];
+  var result = [list1, list2];
   
   return result;  
 };
 
 
+
 function calculateMasses(densities, m1, m2)  { // m1 and m2 are the materialAssignments for calculateVolumes
-  
+  console.log(m1,m2)
   var list1 = calculateVolumes(m1, m2)[0]     // list of material assignments (areas) with calculated volumes appended 
+  console.log(m1, m2)
   var list2 = calculateVolumes(m1, m2)[1]     // list of material assignments (volumes) with calculated volumes appended
   var densitiesDict = {};
   for (var i = 1; i < densities.length; i++){
@@ -5715,6 +5727,7 @@ function calculateImpacts(quartzDB, materialsWithMasses) {   // materialsWithMas
   }; 
   
   var result = materialsWithMasses;
+  console.log(result)
 
   for (var d = 0; d < ListLCAImpacts_Imperial.length; d++) {
     result[0].push( ListLCAImpacts_Imperial[d] );   // adding LCA Impacts (Imperial) to the results header
@@ -5769,6 +5782,7 @@ function calculateImpacts(quartzDB, materialsWithMasses) {   // materialsWithMas
   };
 
   //return result;
+  console.log(result)
 
   var dictionary = {};  
   
@@ -5802,12 +5816,17 @@ function calculateImpacts(quartzDB, materialsWithMasses) {   // materialsWithMas
 
     chartResult.push(dictionary[key])
   };
-  
+  console.log(chartResult)
   var preheaders = Object.keys( chartResult[0] );
-  var headers = preheaders.slice(0, preheaders.length - 1);
+  console.log(chartResult[0])
+  console.log(preheaders)
+  var headers = preheaders.slice(0, preheaders.length-1);
+  console.log(headers)
+  var croppedChartResult = chartResult.slice(0,6);
+  croppedChartResult.columns = headers;
 
-  chartResult.columns = headers;
+
+ return croppedChartResult;
   
-  return chartResult;
 
 };

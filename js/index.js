@@ -242,6 +242,7 @@ function onChangeLayer(value, name) {
         userInputsVolume[rowIndex][colIndex]=name;
         userInputsVolume[rowIndex][colIndex+1]=areaOrVolume;
       }
+
     });
   }
 }
@@ -295,6 +296,7 @@ function onChangeCPIDs(value, name) {
   } else {   // else store in volume variable
     userInputsVolume[rowIndex][colIndex]=name;
   }
+
 }
 
 /**
@@ -313,6 +315,7 @@ function onInput(e) {
   } else {   // else store in volume variable
     userInputsVolume[rowIndex][colIndex]=userInput;
   }
+
 }
 
 /**
@@ -436,11 +439,13 @@ function addRowVolume() {
 function deleteRowArea() {
   userInputsArea.pop();
   $('#areaTable tbody tr:nth-last-child(1)').remove();
+
 }
 
 function deleteRowVolume() {
   userInputsVolume.pop();
   $('#volumeTable tbody tr:nth-last-child(1)').remove();
+
 }
 
 
@@ -515,6 +520,8 @@ function init() {
         $('button.button.area.minus').click(deleteRowArea);
         $('button.button.volume.minus').click(deleteRowVolume);
 
+        $('button.ui.view').click(createChart);
+
         $('#bar .item.button').click(function(e) {
           var $e = $(e.target)
           var hasClass = $e.hasClass('active')
@@ -542,8 +549,6 @@ function init() {
         fetchProjects()
         // populate CPIDs dropdown
         getCPIDs()
-        // create column chart
-        createChart()
 
       } else {
         showLogin();
