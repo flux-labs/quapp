@@ -1,4 +1,3 @@
-
 /**
  * Variables in this file:
  *      quartzDB
@@ -5516,6 +5515,7 @@ var ListLCAImpacts = [
         "Smog Potential EoL (kg O3-eq c2g)",
         "Primary Energy Demand EoL (MJ c2g)",
     ];
+
   var ListLCAImpacts_Imperial = [
         "Acidification Potential (lbs SO2-eq c2g)",
         "Eutrophication Potential (lbs N-eq c2g)",
@@ -5584,21 +5584,21 @@ var test1 = [
     "CP133"
   ],
   [
-    "Floor",
+    "Roof",
     254982.5428327912,
     4,
     0.3333333333333333,
     "CP036"
   ],
   [
-    "Glass",
+    "Wall",
     390.0506264307599,
     0.12,
     0.01,
     "CP044"
   ],
   [
-    "Glass",
+    "Floor",
     39005.06264307599,
     0.5,
     0.041666666666666664,
@@ -5613,13 +5613,13 @@ var test2 =[
     "CPID"
   ],
   [
-    "Floor",
+    "Ground",
     127491.2714163956,
     0.3937007874015748,
     "CP133"
   ],
   [
-    "Floor",
+    "Column",
     254982.5428327912,
     0.3333333333333333,
     "CP036"
@@ -5768,14 +5768,46 @@ function calculateImpacts(quartzDB, materialsWithMasses) {   // materialsWithMas
     }
   };
 
-  return result;
-  // var = chartResult = [ {"Impact" : "GWP"}, {"Impact" : "PED"}, {"Impact" : "Cancer - Red"}, {"Impact" : "Cancer - Orange"}  ];
-  
-  // for (var i = 0; i < chartResult.length; i++){
-  //   for (var j = 1; j < result.length; j++) {
-    
-  //   }    
-  // }
+  //return result;
 
+  var dictionary = {};  
+  
+  for (var x = 2; x < result[0].length; x++) {             // for every impact in results
+    dictionary[ result[0][x] ]= { "Impact": result[0][x] } ;
+
+    for (var j = 1; j < result.length; j++) {               // for every result (excludes headers)
+        var layerName = result[j][0];                       // grabbing the name of the geometric layer
+
+        if (dictionary[ result[0][x] ].hasOwnProperty(layerName) ){
+            dictionary[ result[0][x] ][layerName] += result [j][x]
+        }
+
+        else dictionary[ result[0][x] ][layerName] = result [j][x];      // send the impact value with layer as key name to the correct dictionary object 
+    }; 
+
+  }
+  
+  var chartResult = []; 
+
+  for (var key in dictionary) {
+    
+    var sumValue = 0;
+    for (var val in dictionary[key]) {
+        if ( isNaN( dictionary[key][val] ) === false ) {
+            sumValue += dictionary[key][val];
+        }
+    }
+
+    dictionary[key]["total"]= sumValue ;    
+
+    chartResult.push(dictionary[key])
+  };
+  
+  var preheaders = Object.keys( chartResult[0] );
+  var headers = preheaders.slice(0, preheaders.length - 1);
+
+  chartResult.columns = headers;
+  
+  return chartResult;
 
 };

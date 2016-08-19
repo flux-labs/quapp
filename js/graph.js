@@ -19,7 +19,8 @@ function createChart() {
   var stack = d3.stack()
       .offset(d3.stackOffsetExpand);     
 
-  
+  // var col = ["Impact","Floor","Door","Glass","Roof","Wall","Floor"];
+
   // var data = [
   //   {
   //     "Door": "134276",
@@ -27,7 +28,8 @@ function createChart() {
   //     "Glass": "513",
   //     "Impact": "Impact2",
   //     "Roof": "6434",
-  //     "Wall": "10000"
+  //     "Wall": "10000",
+  //     "total": "3523792"
   //   },
   //   {
   //     "Door": "543962",
@@ -35,7 +37,8 @@ function createChart() {
   //     "Glass": "78",
   //     "Impact": "GWP",
   //     "Roof": "118640",
-  //     "Wall": "4296556"
+  //     "Wall": "4296556",
+  //     "total": "5095226"
   //   },
   //   {
   //     "Door": "13490276",
@@ -43,7 +46,8 @@ function createChart() {
   //     "Glass": "513",
   //     "Impact": "PED",
   //     "Roof": "6434",
-  //     "Wall": "10000"
+  //     "Wall": "10000",
+  //     "total": "16879792"
   //   },
   //   {
   //     "Door": "10000",
@@ -51,7 +55,8 @@ function createChart() {
   //     "Glass": "10000",
   //     "Impact": "Cancer",
   //     "Roof": "10607",
-  //     "Wall": "854200"
+  //     "Wall": "854200",
+  //     "total": "894807"
   //   },
   //   {
   //     "Door": "1349076",
@@ -59,13 +64,22 @@ function createChart() {
   //     "Glass": "513",
   //     "Impact": "Impact3",
   //     "Roof": "6434",
-  //     "Wall": "10000"
+  //     "Wall": "10000",
+  //     "total": "4738592"
   //   }
   // ]
 
+  // data.columns = col;
+  
+  var data = calculateImpacts(quartzDB, calculateMasses(quartzDensities,test1,test2))
 
-  d3.csv("../data3.csv", type, function(error, data) {
-    if (error) throw error;
+  console.log(data)
+
+  //d3.select("#columnChart").selectAll
+
+  // d3.csv("../data3.csv", type, function(error, data) {
+    // if (error) throw error;
+    console.log(data)
 
     data.sort(function(a, b) { return b[data.columns[1]] / b.total - a[data.columns[1]] / a.total; });
 
@@ -109,8 +123,8 @@ function createChart() {
         .attr("dy", "0.35em")
         .attr("fill", "#000")
         .style("font", "10px sans-serif")
-        .text(function(d) { return d.key; });
-  });
+        .text(function(d) { return d.key; });                              
+  // });
 
   function type(d, i, columns) {
     for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
