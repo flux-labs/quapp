@@ -443,6 +443,30 @@ function deleteRowVolume() {
   $('#volumeTable tbody tr:nth-last-child(1)').remove();
 }
 
+
+/**
+ * Initialize the create cell (key) input + button.
+ */
+function initCreate() {
+  $('#create button').on('click', function(e) {
+    // get the input field
+    var input = $(e.target).parent().find('input')
+    // get the input field value
+    var value = input.val()
+    // check we have a name
+    if (value === '') return
+    // check we have a project selected
+    if (!selectedProject) return
+    // create the cell (key)
+    var user = getUser()
+    var project = user.getProject(selectedProject.id)
+
+    var dt = project.getDataTable();
+    dt.createCell(value, {description: "", value: {"userInputsArea": userInputsArea, "userInputsVolume": userInputsVolume}});
+  })
+}
+
+
 /**
  * Initialize the 3D viewport.
  */
@@ -737,7 +761,7 @@ function init() {
         $('.ui.dropdown.ids').dropdown({
           onChange: onChangeCPIDs
         });
-        $('.ui.input').on('input', onInput)
+        $('table .ui.input').on('input', onInput)
 
         $('button.button.area.plus').click(addRowArea);
         $('button.button.volume.plus').click(addRowVolume);
@@ -764,6 +788,8 @@ function init() {
         })
         // hide display by default
         $('#display').hide()
+        // init key creation
+        initCreate()
         // create the viewport
         initViewport()
         // get the user's projects from Flux
