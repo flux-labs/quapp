@@ -1,3 +1,5 @@
+
+
 html {
   font-family: 'Lato', sans-serif;
   font-size: 14px;
@@ -162,7 +164,7 @@ button {
 /*left panel geometry view*/
 
 #geometry {
-  height: 50%;
+  height: 40%;
   position: relative;
   box-sizing: border-box;
   /*display: flex;*/
@@ -174,7 +176,7 @@ button {
 #display {
   position: relative;
   display: flex;
-  height: 50%;
+  height: 40%;
   box-sizing: border-box;
   padding: 1em 2em 1em 1em;
   overflow: auto;
@@ -190,11 +192,24 @@ button {
   top: 0;
 }
 
-#columnChart {
+#chart-container {
   position: relative;
-  height: 50%;
+  border-top: 1px solid #e8e8e8;
+  height: 60%;
   width: 100%;
   float:left;
+}
+
+#columnChart{
+  margin-left: 12px;
+}
+
+.bar {
+  fill: blue; 
+}
+
+.axis path {
+  display: none;
 }
 
 /*right panel*/
