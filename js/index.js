@@ -540,7 +540,8 @@ function init() {
 
         })
         // hide display by default
-        $('#display').hide()
+        $('.design.tab #display').hide()
+        $('.compare.tab #display').hide()
         // init key creation
         initCreate()
         // create the viewport

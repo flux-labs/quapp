@@ -4,7 +4,7 @@ function createChart() {
       width = +svg.attr("width") - margin.left - margin.right,
       height = +svg.attr("height") - margin.top - margin.bottom,
       g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+console.log(svg)
   var x = d3.scaleBand()
       .rangeRound([0, width])
       .padding(0.1)

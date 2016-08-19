@@ -5631,15 +5631,10 @@ function calculateVolumes(materialAssignmentsWithAreas, materialAssignmentsWithV
   // where materialAssignments is a 2D array w/ header
   var list1 = materialAssignmentsWithAreas;
   var list2 = materialAssignmentsWithVolumes;
-
-  console.log(materialAssignmentsWithAreas,materialAssignmentsWithVolumes)
    
   list1[0].push("calculatedVolume");
 
-  console.log(materialAssignmentsWithAreas,materialAssignmentsWithVolumes)
-
   list2[0].push("calculatedVolume");
-  console.log(materialAssignmentsWithAreas,materialAssignmentsWithVolumes)
 
   // calculate volumes for table materials assignments w/o volumes
   for(var m = 1; m < materialAssignmentsWithAreas.length; m++){
@@ -5665,9 +5660,7 @@ function calculateVolumes(materialAssignmentsWithAreas, materialAssignmentsWithV
 
 
 function calculateMasses(densities, m1, m2)  { // m1 and m2 are the materialAssignments for calculateVolumes
-  console.log(m1,m2)
   var list1 = calculateVolumes(m1, m2)[0]     // list of material assignments (areas) with calculated volumes appended 
-  console.log(m1, m2)
   var list2 = calculateVolumes(m1, m2)[1]     // list of material assignments (volumes) with calculated volumes appended
   var densitiesDict = {};
   for (var i = 1; i < densities.length; i++){
@@ -5816,17 +5809,23 @@ function calculateImpacts(quartzDB, materialsWithMasses) {   // materialsWithMas
 
     chartResult.push(dictionary[key])
   };
-  console.log(chartResult)
   var preheaders = Object.keys( chartResult[0] );
-  console.log(chartResult[0])
-  console.log(preheaders)
   var headers = preheaders.slice(0, preheaders.length-1);
-  console.log(headers)
   var croppedChartResult = chartResult.slice(0,6);
   croppedChartResult.columns = headers;
 
+  userInputsArea.shift()
+  userInputsVolume.shift()
 
- return croppedChartResult;
+  for (i=0; i < userInputsArea.length; i++) {
+    userInputsArea[i].pop()
+    userInputsArea[i].pop()
+  }
+  for (i=0; i < userInputsVolume.length; i++) {
+    userInputsVolume[i].pop()
+    userInputsVolume[i].pop()
+  }
+  return croppedChartResult;
   
 
 };

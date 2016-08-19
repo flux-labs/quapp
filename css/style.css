@@ -63,6 +63,7 @@ div {
 
 #bar .subtitle {
   color: #aaa;
+  width: 66.5%;
 }
 
 /*navbar*/
@@ -113,6 +114,10 @@ div {
   width: 67%;
 }
 
+.left-panel.last {
+  width:34%;
+}
+
 /*left panel dropdown*/
 
 .select {
@@ -135,6 +140,11 @@ button {
 
 .left-panel .select {
   width: 50%;
+  float: left;
+}
+
+.left-panel .select.full {
+  width: 100%;
   float: left;
 }
 
