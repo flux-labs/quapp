@@ -551,6 +551,8 @@ function init() {
         // populate CPIDs dropdown
         getCPIDs()
 
+        createQuartzTable()
+
       } else {
         showLogin();
       }

@@ -5566,6 +5566,54 @@ var ListLCAImpacts_Imperial = [
     ];
 
 /**
+ * Abbreviated Impace Labels
+ */
+ var abbImpacts = [
+    "Vol",
+    "Mass",
+    "AP_c2g",
+    "EP_c2g",
+    "GWP_c2g",
+    "ODP_c2g",
+    "SP_c2g",
+    "PED_c2g",
+    "AP_iu",
+    "EP_iu",
+    "GWP_iu",
+    "ODP_iu",
+    "SP_iu",
+    "PED_iu",
+    "AP_eol",
+    "EP_eol",
+    "GWP_eol",
+    "ODP_eol",
+    "SP_eol",
+    "PED_eol",
+    "Canc-o",
+    "Dev-o",
+    "Endo-o",
+    "Eye-o",
+    "Mamm-o",
+    "Muta-o",
+    "Neur-o",
+    "Org-o",
+    "Repr-o",
+    "Resp-o",
+    "RespO-o",
+    "SkinI-o",
+    "SkinS-o",
+    "Canc-r",
+    "CancO-r",
+    "Dev-r",
+    "Muta-r",
+    "PBT-r",
+    "Repr-r",
+    "Resp-r",
+    "PBT-p",
+    "Unk"
+ ]
+
+/**
  * Calculate Impacts.
  */
 var test1 = [
@@ -5797,21 +5845,37 @@ function calculateImpacts(quartzDB, materialsWithMasses) {   // materialsWithMas
   var chartResult = []; 
 
   for (var key in dictionary) {
-    
+
     var sumValue = 0;
     for (var val in dictionary[key]) {
         if ( isNaN( dictionary[key][val] ) === false ) {
             sumValue += dictionary[key][val];
         }
     }
-
     dictionary[key]["total"]= sumValue ;    
-
     chartResult.push(dictionary[key])
   };
+
+  // Replacing impact labels with abbreviations
+  for(var i = 0; i < chartResult.length; i++){
+        chartResult[i]["Impact"] = abbImpacts[i]
+  };
+
+  console.log(chartResult)
+
   var preheaders = Object.keys( chartResult[0] );
   var headers = preheaders.slice(0, preheaders.length-1);
-  var croppedChartResult = chartResult.slice(0,6);
+
+  var croppedChartResult = [
+    chartResult[0],
+    chartResult[1],
+    chartResult[4],
+    chartResult[7],
+    chartResult[20],
+    chartResult[28],
+    chartResult[33]
+  ];  
+
   croppedChartResult.columns = headers;
 
   userInputsArea.shift()
@@ -5827,5 +5891,4 @@ function calculateImpacts(quartzDB, materialsWithMasses) {   // materialsWithMas
   }
   return croppedChartResult;
   
-
 };

@@ -68,7 +68,7 @@ div {
 
 /*navbar*/
 
-#login, #logout, .item.compare, .item.design {
+#login, #logout, .item.compare, .item.design, .item.quartz-db {
   cursor: pointer;
   line-height: 60px;
   padding: 0 20px;
@@ -79,7 +79,7 @@ div {
 
 }
 
-#login:hover, #logout:hover, .item.compare.button:hover, .item.design.button:hover {
+#login:hover, #logout:hover, .item.compare.button:hover, .item.design.button:hover, .item.quartz-db.button:hover, {
   color: #fff;
   background: #64B5F6;
 }
@@ -298,6 +298,26 @@ button.ui.view {
   float: left;
   padding-top: 12px;
   padding-bottom: 12px;
+}
+
+/*QUARTZ TABLE*/
+
+path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+td, th {
+    padding: 1px 4px;
 }
 
 /* range slider */
