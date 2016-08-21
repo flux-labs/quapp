@@ -322,4 +322,9 @@ td, th {
 
 #quartzTable {
   margin: 0 20px;
+  width: 95%;
+}
+
+#quartzTable tbody {
+  font-size: 12px !important;
 }

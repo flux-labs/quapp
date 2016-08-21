@@ -6,7 +6,7 @@ function createChart() {
       g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   var x = d3.scaleBand()
       .rangeRound([0, width])
-      .padding(0.1)
+      .padding(0.2)
       .align(0.1);
 
   var y = d3.scaleLinear()
@@ -80,6 +80,7 @@ function createQuartzTable() {
   var thead = table.find('thead')
   thead.append('<tr></tr>')
   var tbody = table.find('tbody')
+  console.log(tbody)
   for (var header of quartzDescr[0]) {
       thead.find('tr').append('<th>'+header+'</th>')
   }
@@ -88,8 +89,10 @@ function createQuartzTable() {
   // then iterate through the items, and add them to a different th
   for (i=1;quartzDescr.length;i++) {
     tbody.append('<tr></tr>')
+    var tr = tbody.find('tr:nth-child('+i+')')
+
     for (var item of quartzDescr[i]) {
-      tbody.find
+      tr.append('<td>'+item+'</td>')
     }
   }
 

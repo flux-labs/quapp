@@ -4457,27 +4457,27 @@ var quartzDescr = [
   [
     "CP000",
     "Rebar (40,60,75,80 Grade Steel)",
-    null
+    "ASTM A615 describes grades 40, 60, 75 and 80 steel rebar made with low-carbon alloy steel.  Like all rebar, ASTM A615 bars can be made to be plain (smooth), or deformed (texturized to give the concrete more surface area to adhere to).  The standard allows for rebar to be manufactured in any process where resulting product meets minimum standards for composition and tensile properties.  Steel rebar is made from upwards of 95% recycled content."
   ],
   [
     "CP001",
     "Ready Mixed Concrete (Straight Mix) (NWC 3000-4000psi)",
-    null
+    "Concrete is a common construction material, used in many structural applications, and is highly customizable in composition. A straight mix concrete is made by mixing Portland cement, water, sand, and gravel, and can include chemical admixes, alone or in combination, to provide improved strength, durability, or other desired characteristic. This Common Product profile describes the straight mix in-situ/ready mix concrete composition likely to be used to produce normal weight 3,000 – 4,000 psi concrete for construction in the San Francisco Bay area. The exact amounts of all ingredients in concrete will likely vary to some degree based on the contractor, concrete supplier, and the materials used by the supplier to mix the concrete ordered."
   ],
   [
     "CP005",
     "Drywall (Natural Gypsum)",
-    null
+    "Drywall is ubiquitously used in building construction as interior wall enclosures, ceilings, and partitions in both load-bearing and non-load-bearing cases. There are many strains of Drywall including but not limited to acoustical, fire-resistant, moisture-resistant and mold-resistant varieties. This Common Product profile represents a regular Drywall product. Drywall is composed of gypsum plaster pressed between a paper or cardboard lining. The key material is gypsum (calcium sulfate), which is available in different hydration levels, and in anhydrous form. Natural gypsum stone is calcium sulfate-dihydrate (CaSO4*2H2O). The anhydrous calcium sulfate can be found in nature as anhydrite (CaSO4). Gypsum also occurs in large quantities as the industry by-product, otherwise known as flue-gas desulphurized (FGD) gypsum. This common product profile characters a drywall product made only naturally mined gypsum."
   ],
   [
     "CP006",
     "Drywall Joint Compound",
-    null
+    "Drywall joint compound is used, along with drywall joint tape, to fill the seams between drywall panels."
   ],
   [
     "CP008",
     "Hydrophilic Concrete Joint Waterstop",
-    null
+    "Concrete joint waterstops can be metal, hydrophobic or hydrophilic.  Hydrophilic waterstops are most common in joints with limited movement (concrete cold joints) and are thus explored in this CP.  Within this group of waterstops, bentonite clay based formulations are most common.  The waterstop is used in vertical and horizontal non-moving concrete construction joints and around through penetrations to prevent water intrusion.  The preformed strip watertop swells on contact with water, creating a seal in both hydrostatic and intermittent hydrostatic conditions.  Some of these strips are self-adhering due to their tacky nature, but most technical data sheets still recommend the use of a primer or adhesive (at least on vertical surfaces).  The material is delivered in a coil, with a paper backing on one side to prevent the strip from sticking to itself.  The paper is removed upon application."
   ],
   [
     "CP009",
@@ -6392,8 +6392,7 @@ function calculateImpacts(quartzDB, materialsWithMasses) {   // materialsWithMas
     chartResult[4],
     chartResult[7],
     chartResult[20],
-    chartResult[28],
-    chartResult[33]
+    chartResult[28]
   ];  
 
   croppedChartResult.columns = headers;
